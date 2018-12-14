@@ -58,6 +58,8 @@ import java.util.concurrent.TimeUnit;
 
 public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeline {
 
+    public Point silverAvgPoint, goldAvgPoint;
+
     /**
      * Whether it should use a mask to mask out the crater and run any other crater/depot only algorithms
      */
@@ -183,18 +185,18 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         Imgproc.drawContours(returnMat, contours, -1, new Scalar(0, 255, 0), 2);
 
         Point averageContourPoint = null;
-
         if(filteredContourPoints.size() == 0){
 
             errors.add("No filtered contours [Gold]");
-
+            goldAvgPoint = null;
         }
 
         else {
 
             // Calculate the average point and draw it to the image
             averageContourPoint = CVHelpers.calculateAveragePoint(filteredContourPoints);
-            Imgproc.circle(returnMat, averageContourPoint, 5, new Scalar(0, 255, 0), 2);
+            goldAvgPoint = averageContourPoint;
+            Imgproc.circle(returnMat, averageContourPoint, 5, new Scalar(255, 255, 255), 2);
 
             // Find the contour closest to the average point and check its circularity
             int closestIdx = 0;
@@ -228,6 +230,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
 
         }
 
+        // TODO: blob detector is a extranious way to find gold, can remove
         Point averageBlobPoint = null;
 
         if(CONSTANTS.blobDetector != null){
@@ -320,11 +323,11 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
             }
 
             double circularity = 4 * Math.PI * area / (arcLen * arcLen);
+            temp.add(mOp);
+            contourCenters.add(CVHelpers.calculateCenterPoint(mOp));
 
             if(circularity > CONSTANTS.MIN_SILVER_CIRCULARITY && area > CONSTANTS.MIN_SILVER_AREA){
 
-                temp.add(mOp);
-                contourCenters.add(CVHelpers.calculateCenterPoint(mOp));
                 // errors.add("Added one to temp");
 
             }
@@ -346,10 +349,14 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         contours = temp;
         Imgproc.drawContours(returnMat, contours, -1, new Scalar(0, 255, 0), 2);
 
+        silverAvgPoint = CVHelpers.calculateAveragePoint(contourCenters);
+        if (silverAvgPoint == null)
+            errors.add("Silver avg boof");
+        else
+            Imgproc.circle(returnMat, silverAvgPoint, 5, new Scalar(255, 255, 255), 2);
+
         if(contours.size() == 0){
-
             errors.add("No filtered contours [Silver]");
-
         }
 
         else {
@@ -498,7 +505,7 @@ class DetectionConstants {
     /**
      * Minimum circularity to still detect a contour as circular for silver detection
      */
-    public float MIN_SILVER_CIRCULARITY = 0.33f;
+    public float MIN_SILVER_CIRCULARITY = 0.22f;
 
     /**
      * Minimum area to still detect a contour for silver detection. Since area scales with

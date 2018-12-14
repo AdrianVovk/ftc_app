@@ -29,7 +29,7 @@ public class DrawViewSource extends View {
 
     private Paint mPaint;
     private Resources resources;
-    private Bitmap bitmap;
+    public Bitmap bitmap;
 
     public DrawViewSource(Context context) {
         super(context);

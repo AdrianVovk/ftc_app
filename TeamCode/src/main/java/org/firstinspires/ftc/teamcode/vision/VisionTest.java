@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.vision;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.Dogeforia;
 import com.disnodeteam.dogecv.filters.DogeCVColorFilter;
@@ -30,6 +32,8 @@ public class VisionTest extends OpMode {
     private boolean leftPressedLastTime = false;
     private boolean rightPressedLastTime = false;
 
+    Dogeforia vuforia;
+
     @Override
     public void init() {
         VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters();
@@ -39,7 +43,8 @@ public class VisionTest extends OpMode {
 
         vision = new FirstPythonVisionTranslation(true);
         vision.init(hardwareMap.appContext, CameraViewDisplay.getInstance(), 0, true);
-        Dogeforia vuforia = new Dogeforia(params);
+
+        vuforia = new Dogeforia(params);
         vuforia.enableConvertFrameToBitmap();
         vuforia.enableDogeCV();
         vuforia.setDogeCVDetector(vision);
@@ -57,9 +62,20 @@ public class VisionTest extends OpMode {
 
     @Override
     public void loop() {
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        Bitmap feed = vision.getRawView().bitmap;
+        if (feed != null)
+            dashboard.sendImage(feed);
 
-        //constantEditor();
-
+        if (vision.goldAvgPoint == null)
+            telemetry.addLine("Gold is on the left");
+        else if (vision.silverAvgPoint == null)
+            telemetry.addLine("Cannot tell without a silver mineral in the shot");
+        else if (vision.goldAvgPoint.x < vision.silverAvgPoint.x)
+            telemetry.addLine("Gold is in the center");
+        else if (vision.goldAvgPoint.x > vision.silverAvgPoint.x)
+            telemetry.addLine("Gold is on the right");
+        telemetry.update();
     }
 
     @SuppressLint("DefaultLocale")
@@ -231,8 +247,6 @@ public class VisionTest extends OpMode {
 
     @Override
     public void stop() {
-
-        vision.disable();
-
+        vuforia.stop();
     }
 }
