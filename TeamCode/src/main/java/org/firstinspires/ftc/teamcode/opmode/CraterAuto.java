@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.BeltDriveHardware;
+import org.firstinspires.ftc.teamcode.vision.Vision;
 
 @Autonomous(name="Crater", group="Penn")
 public class CraterAuto extends LinearOpMode{
@@ -42,14 +43,14 @@ public class CraterAuto extends LinearOpMode{
 			//telemetry.addData("Avoid Minerals (y)", avoidMinerals);
 			telemetry.update();
 		}
-		
+
 		roobot.reset(); 
 		waitForStart();
 		if (isStopRequested()) return;
-		
+
 		if(land)
 			roobot.land();
-			
+
 		if (align && !roobot.alignToLander()) {
 			telemetry.addLine("Failed to align");
 			telemetry.update();

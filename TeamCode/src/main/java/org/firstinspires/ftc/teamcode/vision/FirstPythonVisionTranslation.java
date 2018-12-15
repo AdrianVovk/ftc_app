@@ -1,39 +1,10 @@
 package org.firstinspires.ftc.teamcode.vision;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureRequest;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSequenceId;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraFrame;
-import org.opencv.core.Size;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-//import com.us.cvlib.CVHelpers;
-//import com.us.cvlib.OpenCVPipeline;
-//import com.us.cvlib.ViewDisplay;
-import com.disnodeteam.dogecv.ViewDisplay;
-import com.disnodeteam.dogecv.OpenCVPipeline;
 import com.disnodeteam.dogecv.detectors.DogeCVDetector;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.function.Continuation;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSession;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCharacteristics;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraException;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 import org.opencv.core.Core;
 import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
@@ -42,19 +13,12 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgproc.Imgproc;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeline {
 
@@ -96,11 +60,6 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
     private long lastTime = 0;
 
     public DetectionConstants CONSTANTS = new DetectionConstants();
-
-    public FirstPythonVisionTranslation(boolean depotMode){
-        this.depotMode = depotMode;
-
-    }
 
     /*
     TODO:
@@ -147,7 +106,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         Imgproc.drawContours(returnMat, contours, -1, new Scalar(255, 0, 0), 2);
 
 
-        if(contours.size() == 0){
+        if (contours.size() == 0) {
 
             errors.add("No contours detected [Gold]");
 
@@ -158,11 +117,11 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         List<Point> contourCenters = new ArrayList<>();
 
         // Filter out contours that are smaller than a certain area and then calculate the center of all the other contours
-        for(MatOfPoint contour : contours){
+        for (MatOfPoint contour : contours) {
 
             double area = Imgproc.contourArea(contour);
 
-            if(area < CONSTANTS.MIN_CONTOUR_CUTOFF_AREA_GOLD){
+            if (area < CONSTANTS.MIN_CONTOUR_CUTOFF_AREA_GOLD) {
 
                 continue;
 
@@ -185,13 +144,11 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         Imgproc.drawContours(returnMat, contours, -1, new Scalar(0, 255, 0), 2);
 
         Point averageContourPoint = null;
-        if(filteredContourPoints.size() == 0){
+        if (filteredContourPoints.size() == 0) {
 
             errors.add("No filtered contours [Gold]");
             goldAvgPoint = null;
-        }
-
-        else {
+        } else {
 
             // Calculate the average point and draw it to the image
             averageContourPoint = CVHelpers.calculateAveragePoint(filteredContourPoints);
@@ -202,12 +159,12 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
             int closestIdx = 0;
             double closestDistance = 1000000;
 
-            for(int i = 0; i < contourCenters.size(); i++){
+            for (int i = 0; i < contourCenters.size(); i++) {
 
                 Point p = contourCenters.get(i);
                 double distance = Math.hypot(p.x - averageContourPoint.x, p.y - averageContourPoint.y);
 
-                if(distance < closestDistance){
+                if (distance < closestDistance) {
 
                     closestIdx = i;
                     closestDistance = distance;
@@ -222,7 +179,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
             double area = Imgproc.contourArea(closestContour);
             double circularity = 4 * Math.PI * area / (arcLen * arcLen);
 
-            if(Math.abs(0.785 - circularity) > CONSTANTS.MAX_CIRCULARITY_ABNORMALITY_GOLD){
+            if (Math.abs(0.785 - circularity) > CONSTANTS.MAX_CIRCULARITY_ABNORMALITY_GOLD) {
 
                 errors.add("Abnormal circularity of nearest contour point [Gold]");
 
@@ -233,7 +190,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         // TODO: blob detector is a extranious way to find gold, can remove
         Point averageBlobPoint = null;
 
-        if(CONSTANTS.blobDetector != null){
+        if (CONSTANTS.blobDetector != null) {
 
             // Get rid of the waffle pattern
             dewaffleified = dewaffleify(denoisedYuvThresholded);
@@ -248,7 +205,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
             List<Point> keypointPts = new ArrayList<>();
             List<Float> keypointAreaSquareds = new ArrayList<>();
 
-            for(int i = 0; i < keypoints.size(); i++){
+            for (int i = 0; i < keypoints.size(); i++) {
 
                 KeyPoint k = keypoints.get(i);
                 keypointPts.add(k.pt);
@@ -256,29 +213,25 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
 
             }
 
-            if(keypointPts.size() != 0){
+            if (keypointPts.size() != 0) {
 
                 // Calculate the average blob point, using area ^ 2 as a weighting
                 averageBlobPoint = CVHelpers.calculateAveragePoint(keypointPts, keypointAreaSquareds);
                 Imgproc.circle(returnMat, averageBlobPoint, 5, new Scalar(0, 0, 255), 2);
 
-            }
-
-            else {
+            } else {
 
                 errors.add("No blobs detected [Gold]");
 
             }
 
-        }
-
-        else {
+        } else {
 
             errors.add("Blob detector is null [Gold]");
 
         }
 
-        if(averageBlobPoint != null && averageContourPoint != null){
+        if (averageBlobPoint != null && averageContourPoint != null) {
 
             double distance = Math.hypot(averageBlobPoint.x - averageContourPoint.x, averageBlobPoint.y - averageContourPoint.y);
 
@@ -296,7 +249,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         Imgproc.findContours(hlsThresholdedWhiteDenoised, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
         Imgproc.drawContours(returnMat, contours, -1, new Scalar(0, 0, 255), 2);
 
-        if(contours.size() == 0){
+        if (contours.size() == 0) {
 
             errors.add("No contours detected [Silver]");
 
@@ -308,13 +261,13 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         // errors.add("" + contours.size());
 
         // Filter out non circular and small contours and record the centers of all the rest
-        for(MatOfPoint mOp : contours){
+        for (MatOfPoint mOp : contours) {
 
             double arcLen = Imgproc.arcLength(new MatOfPoint2f(mOp.toArray()), true);
             double area = Imgproc.contourArea(mOp);
 
             // Quick check for fake contours
-            if(arcLen < 0.03 || area < 0.03){
+            if (arcLen < 0.03 || area < 0.03) {
 
                 // errors.add("Fake contour removed");
 
@@ -326,19 +279,15 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
             temp.add(mOp);
             contourCenters.add(CVHelpers.calculateCenterPoint(mOp));
 
-            if(circularity > CONSTANTS.MIN_SILVER_CIRCULARITY && area > CONSTANTS.MIN_SILVER_AREA){
+            if (circularity > CONSTANTS.MIN_SILVER_CIRCULARITY && area > CONSTANTS.MIN_SILVER_AREA) {
 
                 // errors.add("Added one to temp");
 
-            }
-
-            else if(circularity < CONSTANTS.MIN_SILVER_CIRCULARITY){
+            } else if (circularity < CONSTANTS.MIN_SILVER_CIRCULARITY) {
 
                 // errors.add("Circularity: " + Double.toString(circularity));
 
-            }
-
-            else if(area < CONSTANTS.MIN_SILVER_CIRCULARITY){
+            } else if (area < CONSTANTS.MIN_SILVER_CIRCULARITY) {
 
                 // errors.add("Area: " + Double.toString(area));
 
@@ -355,11 +304,9 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         else
             Imgproc.circle(returnMat, silverAvgPoint, 5, new Scalar(255, 255, 255), 2);
 
-        if(contours.size() == 0){
+        if (contours.size() == 0) {
             errors.add("No filtered contours [Silver]");
-        }
-
-        else {
+        } else {
 
             Point averageSilverContourPoint = CVHelpers.calculateAveragePoint(contourCenters);
             Imgproc.circle(returnMat, averageSilverContourPoint, 5, new Scalar(255, 0, 0), 2);
@@ -376,7 +323,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         Imgproc.putText(returnMat, "[Position]", new Point(10, 10 + fontSize.height), font, fontScale, color, thickness);
 
         int i = 0;
-        for(; i < errors.size(); i++){
+        for (; i < errors.size(); i++) {
             String e = errors.get(i);
             Imgproc.putText(returnMat, e, new Point(10, 10 + (fontSize.height + 10) * (i + 2)), font, fontScale, color, thickness);
         }
@@ -393,7 +340,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
 
     }
 
-    public Mat denoise(Mat mat, int blurRadius, int erosionIterations){
+    public Mat denoise(Mat mat, int blurRadius, int erosionIterations) {
 
         Imgproc.blur(mat, blurred, new Size(blurRadius, blurRadius));
         Imgproc.erode(blurred, errodedBlur, CONSTANTS.ERODE_KERNEL, new Point(0, 0), erosionIterations);
@@ -403,7 +350,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
 
     }
 
-    public Mat dewaffleify(Mat mat){
+    public Mat dewaffleify(Mat mat) {
 
         Point p = new Point(0, 0);
 
@@ -416,13 +363,13 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
 
     }
 
-    public Mat denoise(Mat mat, int erosionIterations){
+    public Mat denoise(Mat mat, int erosionIterations) {
 
         return denoise(mat, CONSTANTS.BLUR_RADIUS, erosionIterations);
 
     }
 
-    public Mat denoise(Mat mat){
+    public Mat denoise(Mat mat) {
 
         return denoise(mat, CONSTANTS.BLUR_RADIUS, CONSTANTS.EROSION_ITERATIONS);
 
@@ -450,7 +397,7 @@ class DetectionConstants {
     /**
      * The kernel used for the erode
      */
-    public Mat ERODE_KERNEL = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(2 * 5 + 1, 2 * 5 + 1));
+    public Mat ERODE_KERNEL = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2 * 5 + 1, 2 * 5 + 1));
 
     /**
      * Minimum area of contours to use when detecting gold

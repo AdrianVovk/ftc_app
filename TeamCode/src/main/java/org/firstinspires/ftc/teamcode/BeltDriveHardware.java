@@ -51,9 +51,8 @@ public class BeltDriveHardware {
         //this.intakeRotRight = map.servo.get("intakeRotRight");
         //this.intakeRotRight.setDirection(Servo.Direction.REVERSE);
         //this.depositorRot =
-        this.intake = map.crservo.get("intake");
 
-        //int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        //int cameraMonitorViewId = hardware.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardware.appContext.getPackageName());
 
         reset();
     }
