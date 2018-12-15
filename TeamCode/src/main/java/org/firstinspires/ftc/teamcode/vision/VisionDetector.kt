@@ -79,6 +79,10 @@ internal class VisionDetector : DogeCVDetector() {
         }
     }
 
+    ///////////
+    // Utils //
+    ///////////
+
     private fun convertColor(input: Mat, colorCode: Int, limLow: Scalar, limHigh: Scalar): Mat {
         val raw = Mat()
         val thresholded = Mat()
@@ -88,8 +92,18 @@ internal class VisionDetector : DogeCVDetector() {
     }
 
     private fun denoise(input: Mat): Mat {
-        TODO()
+        val blurred = Mat()
+        val eroded = Mat()
+
+        Imgproc.blur(input, blurred, Size(Conf.BLUR_RADIUS, Conf.BLUR_RADIUS));
+        Imgproc.erode(blurred, eroded, Conf.ERODE_KERNEL, Point(0.0, 0.0), Conf.EROSION_ITERATIONS)
+
+        return eroded;
     }
+
+    /////////////
+    // Useless //
+    /////////////
 
     override fun useDefaults() {
         TODO("I should remove this function")

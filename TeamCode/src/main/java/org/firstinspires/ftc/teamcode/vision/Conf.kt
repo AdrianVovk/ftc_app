@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.vision
 import com.acmerobotics.dashboard.config.Config
 import org.opencv.core.Core
 import org.opencv.core.Scalar
+import org.opencv.core.Size
+import org.opencv.imgproc.Imgproc
+import kotlin.math.roundToInt
 
 @Config
 internal object Conf {
@@ -27,6 +30,9 @@ internal object Conf {
     var CAM_OUTPUT_RIM = false
 
     // Denoise function
+    var EROSION_ITERATIONS = 2;
+    var ERODE_KERNEL = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, Size(11.0, 11.0))!!
+    var BLUR_RADIUS = 36.0 * DOWNSCALE_FACTOR
 
     // Fond
     var FONT = Core.FONT_HERSHEY_COMPLEX_SMALL
