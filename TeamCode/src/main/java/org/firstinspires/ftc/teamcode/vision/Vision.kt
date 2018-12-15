@@ -29,7 +29,7 @@ class Vision(private val hardware: HardwareMap) {
     }
 
     private val vuforia = Dogeforia(params).apply {
-        enableConvertFrameToBitmap()
+        //enableConvertFrameToBitmap()
         enableDogeCV()
         setDogeCVDetector(vision)
     }

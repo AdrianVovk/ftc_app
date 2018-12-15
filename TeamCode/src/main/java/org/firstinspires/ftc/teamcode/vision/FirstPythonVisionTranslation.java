@@ -88,7 +88,6 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
 
         // Rescale the image
         Imgproc.resize(rgba, rgbaDownscaled, new Size(rgba.width() * CONSTANTS.DOWNSCALE_FACTOR, rgba.height() * CONSTANTS.DOWNSCALE_FACTOR));
-
         rgbaDownscaled.copyTo(returnMat);
 
         List<String> errors = new ArrayList<>();
@@ -188,54 +187,54 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         }
 
         // TODO: blob detector is a extranious way to find gold, can remove
-        Point averageBlobPoint = null;
-
-        if (CONSTANTS.blobDetector != null) {
-
-            // Get rid of the waffle pattern
-            dewaffleified = dewaffleify(denoisedYuvThresholded);
-
-            // Detect and draw the blobs
-            MatOfKeyPoint detectedBlobs = new MatOfKeyPoint();
-            CONSTANTS.blobDetector.detect(dewaffleified, detectedBlobs);
-            // returnMat.copyTo(blobs);
-            // Features2d.drawKeypoints(blobs, detectedBlobs, returnMat, new Scalar(255, 0, 0));
-
-            List<KeyPoint> keypoints = detectedBlobs.toList();
-            List<Point> keypointPts = new ArrayList<>();
-            List<Float> keypointAreaSquareds = new ArrayList<>();
-
-            for (int i = 0; i < keypoints.size(); i++) {
-
-                KeyPoint k = keypoints.get(i);
-                keypointPts.add(k.pt);
-                keypointAreaSquareds.add(k.size * k.size);
-
-            }
-
-            if (keypointPts.size() != 0) {
-
-                // Calculate the average blob point, using area ^ 2 as a weighting
-                averageBlobPoint = CVHelpers.calculateAveragePoint(keypointPts, keypointAreaSquareds);
-                Imgproc.circle(returnMat, averageBlobPoint, 5, new Scalar(0, 0, 255), 2);
-
-            } else {
-
-                errors.add("No blobs detected [Gold]");
-
-            }
-
-        } else {
-
-            errors.add("Blob detector is null [Gold]");
-
-        }
-
-        if (averageBlobPoint != null && averageContourPoint != null) {
-
-            double distance = Math.hypot(averageBlobPoint.x - averageContourPoint.x, averageBlobPoint.y - averageContourPoint.y);
-
-        }
+//        Point averageBlobPoint = null;
+//
+//        if (CONSTANTS.blobDetector != null) {
+//
+//            // Get rid of the waffle pattern
+//            dewaffleified = dewaffleify(denoisedYuvThresholded);
+//
+//            // Detect and draw the blobs
+//            MatOfKeyPoint detectedBlobs = new MatOfKeyPoint();
+//            CONSTANTS.blobDetector.detect(dewaffleified, detectedBlobs);
+//            // returnMat.copyTo(blobs);
+//            // Features2d.drawKeypoints(blobs, detectedBlobs, returnMat, new Scalar(255, 0, 0));
+//
+//            List<KeyPoint> keypoints = detectedBlobs.toList();
+//            List<Point> keypointPts = new ArrayList<>();
+//            List<Float> keypointAreaSquareds = new ArrayList<>();
+//
+//            for (int i = 0; i < keypoints.size(); i++) {
+//
+//                KeyPoint k = keypoints.get(i);
+//                keypointPts.add(k.pt);
+//                keypointAreaSquareds.add(k.size * k.size);
+//
+//            }
+//
+//            if (keypointPts.size() != 0) {
+//
+//                // Calculate the average blob point, using area ^ 2 as a weighting
+//                averageBlobPoint = CVHelpers.calculateAveragePoint(keypointPts, keypointAreaSquareds);
+//                Imgproc.circle(returnMat, averageBlobPoint, 5, new Scalar(0, 0, 255), 2);
+//
+//            } else {
+//
+//                errors.add("No blobs detected [Gold]");
+//
+//            }
+//
+//        } else {
+//
+//            errors.add("Blob detector is null [Gold]");
+//
+//        }
+//
+//        if (averageBlobPoint != null && averageContourPoint != null) {
+//
+//            double distance = Math.hypot(averageBlobPoint.x - averageContourPoint.x, averageBlobPoint.y - averageContourPoint.y);
+//
+//        }
 
         // HLS white detection
         Imgproc.cvtColor(rgbaDownscaled, hls, Imgproc.COLOR_RGB2HLS);
@@ -315,24 +314,24 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
 
         // Do the final calculations to determine left, right, or center
 
-        int font = Core.FONT_HERSHEY_COMPLEX;
-        int thickness = 2;
-        float fontScale = 0.8f;
-        Scalar color = new Scalar(255, 0, 255);
-        Size fontSize = Imgproc.getTextSize("A", font, fontScale, thickness, null);
-        Imgproc.putText(returnMat, "[Position]", new Point(10, 10 + fontSize.height), font, fontScale, color, thickness);
-
-        int i = 0;
-        for (; i < errors.size(); i++) {
-            String e = errors.get(i);
-            Imgproc.putText(returnMat, e, new Point(10, 10 + (fontSize.height + 10) * (i + 2)), font, fontScale, color, thickness);
-        }
-
-        String fps = Float.toString(1000f / (System.currentTimeMillis() - lastTime));
-
-        Imgproc.putText(returnMat, fps, new Point(10, 10 + (fontSize.height + 10) * (i + 2)), font, fontScale, color, thickness);
-
-        lastTime = System.currentTimeMillis();
+//        int font = Core.FONT_HERSHEY_COMPLEX;
+//        int thickness = 2;
+//        float fontScale = 0.8f;
+//        Scalar color = new Scalar(255, 0, 255);
+//        Size fontSize = Imgproc.getTextSize("A", font, fontScale, thickness, null);
+//        Imgproc.putText(returnMat, "[Position]", new Point(10, 10 + fontSize.height), font, fontScale, color, thickness);
+//
+//        int i = 0;
+//        for (; i < errors.size(); i++) {
+//            String e = errors.get(i);
+//            Imgproc.putText(returnMat, e, new Point(10, 10 + (fontSize.height + 10) * (i + 2)), font, fontScale, color, thickness);
+//        }
+//
+//        String fps = Float.toString(1000f / (System.currentTimeMillis() - lastTime));
+//
+//        Imgproc.putText(returnMat, fps, new Point(10, 10 + (fontSize.height + 10) * (i + 2)), font, fontScale, color, thickness);
+//
+//        lastTime = System.currentTimeMillis();
 
         // Imgproc.cvtColor(hlsThresholdedWhite, returnMat, Imgproc.COLOR_GRAY2RGB);
 
@@ -363,11 +362,9 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
 
     }
 
-    public Mat denoise(Mat mat, int erosionIterations) {
-
-        return denoise(mat, CONSTANTS.BLUR_RADIUS, erosionIterations);
-
-    }
+    //public Mat denoise(Mat mat, int erosionIterations) {
+    //    return denoise(mat, CONSTANTS.BLUR_RADIUS, erosionIterations);
+    //}
 
     public Mat denoise(Mat mat) {
 
