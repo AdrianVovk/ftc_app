@@ -67,7 +67,7 @@ public class CraterAuto extends LinearOpMode{
 			Thread.sleep(7000);
 
 		robot.resetEncoders();
-		
+		//mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
 		if (land)
 			robot.lowerLift();
 
