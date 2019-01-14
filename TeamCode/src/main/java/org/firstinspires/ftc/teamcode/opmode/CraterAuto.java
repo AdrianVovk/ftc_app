@@ -6,136 +6,135 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.vision.Vision;
 
-@Autonomous(name="Crater", group="Penn")
-public class CraterAuto extends LinearOpMode{
-	RobotHardware robot;
+@Autonomous(name = "Crater", group = "Penn")
+public class CraterAuto extends LinearOpMode {
+    RobotHardware robot;
 
-	boolean placeMarker = true;
-	boolean align = true;
-	boolean otherCrater = false;
-	boolean land = true;
-	boolean avoidMinerals = false;
-	boolean aligned = false;
-	boolean wait7 = false;
+    boolean placeMarker = true;
+    boolean align = true;
+    boolean otherCrater = false;
+    boolean land = true;
+    boolean avoidMinerals = false;
+    boolean aligned = false;
+    boolean wait7 = false;
 
-	public void runOpMode() throws InterruptedException{
-		robot = new RobotHardware(this);
-		Vision vision = new Vision(hardwareMap);
-		Vision.CubePosition cubePos = Vision.CubePosition.UNKNOWN;
-		vision.init();
+    public void runOpMode() throws InterruptedException {
+        robot = new RobotHardware(this);
+        Vision vision = new Vision(hardwareMap);
+        Vision.CubePosition cubePos = Vision.CubePosition.UNKNOWN;
+        vision.init();
 
-		while(!isStopRequested() && !opModeIsActive()){
-			if(gamepad1.a)
-				align = !align;
-			if(gamepad1.b)
-				placeMarker = !placeMarker;
-			if(gamepad1.x)
-				otherCrater = !otherCrater;
-			//if(gamepad1.)
-			//	avoidMinerals = !avoidMinerals;
-			if(gamepad1.y)
-				land = !land;
-			if(gamepad1.right_bumper)
-				wait7 = !wait7;
-			
-			telemetry.addData("Align (a)", align);
-			telemetry.addData("Go to depot and place marker (b)", placeMarker);
-			telemetry.addData("Go to opposite color crater (x) (sorta sketch)", otherCrater);
-			telemetry.addData("Land (y)", land);
-			telemetry.addData("Wait 7 (right bumper)", wait7);
-			//telemetry.addData("Avoid Minerals (y)", avoidMinerals);
-			telemetry.addLine();
-			telemetry.addData("Cube Pos", (cubePos = vision.getCubePosition()));
-			telemetry.update();
-		}
+        while (!isStopRequested() && !opModeIsActive()) {
+            if (gamepad1.a)
+                align = !align;
+            if (gamepad1.b)
+                placeMarker = !placeMarker;
+            if (gamepad1.x)
+                otherCrater = !otherCrater;
+            //if(gamepad1.)
+            //	avoidMinerals = !avoidMinerals;
+            if (gamepad1.y)
+                land = !land;
+            if (gamepad1.right_bumper)
+                wait7 = !wait7;
 
-		robot.reset(); 
-		waitForStart();
-		vision.cleanup();
-		if (isStopRequested()) return;
+            telemetry.addData("Align (a)", align);
+            telemetry.addData("Go to depot and place marker (b)", placeMarker);
+            telemetry.addData("Go to opposite color crater (x) (sorta sketch)", otherCrater);
+            telemetry.addData("Land (y)", land);
+            telemetry.addData("Wait 7 (right bumper)", wait7);
+            //telemetry.addData("Avoid Minerals (y)", avoidMinerals);
+            telemetry.addLine();
+            telemetry.addData("Cube Pos", (cubePos = vision.getCubePosition()));
+            telemetry.update();
+        }
 
-		if(land)
-			robot.land();
+        robot.reset();
+        waitForStart();
+        vision.cleanup();
+        if (isStopRequested()) return;
 
-		if (align && !robot.align()) {
-			telemetry.addLine("Failed to align");
-			telemetry.update();
-			return;
-		}
-		
-		if(wait7)
-			Thread.sleep(7000);
+        if (land)
+            robot.lowerLift();
 
-		robot.resetEncoders();
-		//mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-		if (land)
-			robot.lowerLift();
+        if (align && !robot.align()) {
+            telemetry.addLine("Failed to align");
+            telemetry.update();
+            return;
+        }
 
-		switch (cubePos) {
-			case LEFT:
-				break;
-			case RIGHT:
-				break;
-			case CENTER:
-			case UNKNOWN:
-				break;
-		}
+        if (wait7)
+            Thread.sleep(7000);
 
-		if(!placeMarker){
-			robot.drive(45, 0.5);
-			return;
-		}
+        robot.resetEncoders();
+        if (land)
+            robot.lowerLift();
 
-		if(avoidMinerals) {// && !otherCrater){
-			robot.drive(7);
-		} else {
+        switch (cubePos) {
+            case LEFT:
+                robot.turn(-30);
+                robot.resetEncoders();
+                break;
 
-			robot.drive(20);
-			robot.resetEncoders();
+            case RIGHT:
+                robot.turn(30);
+                robot.resetEncoders();
+                break;
+            case CENTER:
+            case UNKNOWN:
+                break;
+        }
 
-			robot.turn(88);
-			robot.resetEncoders();
+        if (!placeMarker) {
+            robot.drive(45, 0.5);
+            return;
+        } else {
 
-			robot.drive(-30);
-			robot.drive(-44, 0.5);
-			robot.resetEncoders();
+            robot.drive(20);
+            robot.resetEncoders();
 
-			robot.turn(-43);
-			robot.resetEncoders();
+            robot.turn(88);
+            robot.resetEncoders();
 
-			robot.drive(-51);
-			robot.resetEncoders();
+            robot.drive(-30);
+            robot.drive(-44, 0.5);
+            robot.resetEncoders();
 
-			robot.deposit();
+            robot.turn(-43);
+            robot.resetEncoders();
 
-			if(otherCrater){
+            robot.drive(-51);
+            robot.resetEncoders();
 
-				robot.turn(92);
-				robot.resetEncoders();
+            robot.deposit();
 
-				robot.align();
-				robot.resetEncoders();
+            if (otherCrater) {
 
-				robot.drive(70);
-				robot.drive(95, 0.5);
-				robot.resetEncoders();
-			}
-			else {
-				robot.drive(70);
-				robot.drive(95, 0.5);
-				robot.resetEncoders();
-			}
-		}
-	}
+                robot.turn(92);
+                robot.resetEncoders();
 
-	public void runCenter(){
+                robot.align();
+                robot.resetEncoders();
 
-		if(!placeMarker){
-			robot.drive(45, 0.5);
-			return;
-		}
+                robot.drive(70);
+                robot.drive(95, 0.5);
+                robot.resetEncoders();
+            } else {
+                robot.drive(70);
+                robot.drive(95, 0.5);
+                robot.resetEncoders();
+            }
+        }
+    }
 
-	}
-	
-	
+    public void runCenter() {
+
+        if (!placeMarker) {
+            robot.drive(45, 0.5);
+            return;
+        }
+
+    }
+
+
 }
