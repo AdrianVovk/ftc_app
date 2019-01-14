@@ -105,7 +105,7 @@ class RobotHardware(map: HardwareMap) {
             rightLift.power = value * Constants.LIFT_POWER_SCALE
         }
 
-    /*
+
     var intakePower: Double
         get() = intake.power
         set(value) {
@@ -130,7 +130,7 @@ class RobotHardware(map: HardwareMap) {
         set(value) {
             paddle.position = if (value) 0.0 else 1.0
         }
-    */
+
 
     var deposit: Boolean
         get() = markerDeposit.position == 0.0

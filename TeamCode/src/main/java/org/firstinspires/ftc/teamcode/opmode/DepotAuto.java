@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.vision.Vision;
 public class DepotAuto extends LinearOpMode {
 
     public void runOpMode() {
-        RobotHardware robot = new RobotHardware(this);
+        RobotHardware roobot = new RobotHardware(this);
         Vision vision = new Vision(hardwareMap);
 
         Vision.CubePosition cubePos = Vision.CubePosition.UNKNOWN;
@@ -44,86 +44,88 @@ public class DepotAuto extends LinearOpMode {
             vision.updateDashboard();
         }
 
-        robot.reset();
+        roobot.reset();
         waitForStart();
         vision.cleanup();
         if (isStopRequested()) return;
 
-        if (land) robot.land();
+        if (land) roobot.land();
 
-        if (align && !robot.align()) {
+        if (align && !roobot.align()) {
             telemetry.addLine("Failed to align");
             telemetry.update();
             return;
         }
-        robot.drive(2);
+        roobot.drive(2);
 
-        if (wait7) robot.setSleep(7000);
-        robot.resetEncoders();
+        if (wait7) roobot.setSleep(7000);
+        roobot.resetEncoders();
 
-        if (land) robot.lowerLift();
+        if (land) roobot.lowerLift();
 
         switch (cubePos) {
             case LEFT:
-                robot.turn(-30);
-                robot.resetEncoders();
-                robot.drive(40, 0.5);
-                robot.resetEncoders();
-                robot.turn(50);
-                robot.resetEncoders();
-                robot.drive(31, 0.5);
-                robot.resetEncoders();
-                robot.turn(-20);
+                roobot.turn(-30);
+                roobot.resetEncoders();
+                roobot.drive(40, 0.5);
+                roobot.resetEncoders();
+                roobot.turn(50);
+                roobot.resetEncoders();
+                roobot.drive(31, 0.5);
+                roobot.resetEncoders();
+                roobot.turn(-20);
                 break;
             /*case RIGHT:
-                robot.turn(30);
-                robot.resetEncoders();
-                robot.drive(40, 0.5);
-                robot.resetEncoders();
-                robot.turn(-55);
-                robot.resetEncoders();
-                robot.drive(35, 0.5);
-                robot.resetEncoders();
-                robot.turn(-12);
-                robot.resetEncoders();
-                robot.drive(5);
-                robot.resetEncoders();
-                robot.turn(30);
+                roobot.turn(30);
+                roobot.resetEncoders();
+                roobot.drive(40, 0.5);
+                roobot.resetEncoders();
+                roobot.turn(-55);
+                roobot.resetEncoders();
+                roobot.drive(35, 0.5);
+                roobot.resetEncoders();
+                roobot.turn(-12);
+                roobot.resetEncoders();
+                roobot.drive(5);
+                roobot.resetEncoders();
+                roobot.turn(30);
                 break;*/
             case RIGHT:
             case CENTER:
             case UNKNOWN:
-                robot.drive(40, 0.5);
-                robot.drive(40 + 30, 0.3);
+                roobot.drive(40, 0.5);
+                roobot.drive(40 + 30, 0.3);
                 break;
         }
-        robot.resetEncoders();
+        roobot.resetEncoders();
 
         if (otherCrater) {
-            robot.turn(120);
-            robot.resetEncoders();
 
-            robot.drive(18);
-            robot.resetEncoders();
 
-            robot.turn(12);
-            robot.resetEncoders();
+            roobot.turn(120);
+            roobot.resetEncoders();
 
-            robot.deposit();
+            roobot.drive(18);
+            roobot.resetEncoders();
 
-            robot.drive(78, 0.5);
-            robot.resetEncoders();
+            roobot.turn(12);
+            roobot.resetEncoders();
+
+            roobot.deposit();
+
+            roobot.drive(78, 0.5);
+            roobot.resetEncoders();
         } else {
-            robot.turn(-130);
-            robot.resetEncoders();
+            roobot.turn(-130);
+            roobot.resetEncoders();
 
-            robot.deposit();
+            roobot.deposit();
 
-            robot.drive(70);
-            robot.resetEncoders();
+            roobot.drive(70);
+            roobot.resetEncoders();
 
-            robot.drive(25, 0.5);
-            robot.resetEncoders();
+            roobot.drive(25, 0.5);
+            roobot.resetEncoders();
         }
     }
 
