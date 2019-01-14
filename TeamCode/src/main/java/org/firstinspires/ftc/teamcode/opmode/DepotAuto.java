@@ -67,18 +67,18 @@ public class DepotAuto extends LinearOpMode {
             case LEFT:
                 roobot.turn(-30);
                 roobot.resetEncoders();
-                roobot.drive(40, 0.5);
+                /*roobot.drive(40, 0.5);
                 roobot.resetEncoders();
                 roobot.turn(50);
                 roobot.resetEncoders();
                 roobot.drive(31, 0.5);
                 roobot.resetEncoders();
-                roobot.turn(-20);
+                roobot.turn(-20);*/
                 break;
-            /*case RIGHT:
+            case RIGHT:
                 roobot.turn(30);
                 roobot.resetEncoders();
-                roobot.drive(40, 0.5);
+                /*roobot.drive(40, 0.5);
                 roobot.resetEncoders();
                 roobot.turn(-55);
                 roobot.resetEncoders();
@@ -88,16 +88,21 @@ public class DepotAuto extends LinearOpMode {
                 roobot.resetEncoders();
                 roobot.drive(5);
                 roobot.resetEncoders();
-                roobot.turn(30);
-                break;*/
-            case RIGHT:
+                roobot.turn(30);*/
+                break;
             case CENTER:
             case UNKNOWN:
-                roobot.drive(40, 0.5);
-                roobot.drive(40 + 30, 0.3);
+                /*roobot.drive(40, 0.5);
+                roobot.drive(40 + 30, 0.3);*/
                 break;
         }
         roobot.resetEncoders();
+
+        roobot.setSlidesPower(1);
+        roobot.setSleep(3000);
+
+        roobot.setSlidesPower(-1);
+        roobot.setSleep(3500);
 
         if (otherCrater) {
 
