@@ -108,7 +108,28 @@ public class CraterAuto extends LinearOpMode {
                 break;
         }
 
-        if (!placeMarker) {
+        robot.drive(0);
+        robot.resetEncoders();
+
+        robot.turn(-45);
+        robot.resetEncoders();
+
+        robot.drive(0);
+        robot.resetEncoders();
+
+        robot.turn(-10);
+        robot.resetEncoders();
+
+        robot.setSlidesPower(1);
+        robot.setSleep(3000);
+
+        robot.setSlidesPower(-1);
+        robot.setSleep(-3500);
+
+
+
+
+        /*if (!placeMarker) {
             robot.drive(45, 0.5);
             return;
         } else {
@@ -147,7 +168,7 @@ public class CraterAuto extends LinearOpMode {
                 robot.drive(95, 0.5);
                 robot.resetEncoders();
             }
-        }
+        }*/
     }
 
     public void runCenter() {
