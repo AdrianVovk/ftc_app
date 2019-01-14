@@ -1,120 +1,130 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.BeltDriveHardware;
+import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.vision.Vision;
 
-@Autonomous(name="Depot", group="Penn")
-public class DepotAuto extends LinearOpMode{
+@Autonomous(name = "Depot", group = "Cleveland")
+public class DepotAuto extends LinearOpMode {
 
-	public void runOpMode() throws InterruptedException {
-		
-		BeltDriveHardware roobot = new BeltDriveHardware(this);
-		boolean align = true;
-		boolean otherCrater = false;
-		boolean land = true;
-		boolean avoidMinerals = false;
-		boolean wait7 = false;
+    public void runOpMode() {
+        RobotHardware robot = new RobotHardware(this);
+        Vision vision = new Vision(hardwareMap);
 
-		while(!isStopRequested() && !isStarted()) {
-			if(gamepad1.a)
-				align = !align;
-			if(gamepad1.x)
-				otherCrater = !otherCrater;
+        Vision.CubePosition cubePos = Vision.CubePosition.UNKNOWN;
+        vision.init();
+
+        boolean align = true;
+        boolean otherCrater = false;
+        boolean land = true;
+        boolean avoidMinerals = false;
+        boolean wait7 = false;
+        while (!isStopRequested() && !isStarted()) {
+            if (gamepad1.a)
+                align = !align;
+            if (gamepad1.x)
+                otherCrater = !otherCrater;
 			/*if(gamepad1.b)
 				avoidMinerals = !avoidMinerals;*/
-			if(gamepad1.y)
-				land = !land;
-			if(gamepad1.right_bumper)
-				wait7 = !wait7;
-			
-			telemetry.addData("Align (a)", align);
-			telemetry.addData("Same color crater (x)", otherCrater);
-			//telemetry.addData("Avoid Minerals + Avoid Depot (b)", avoidMinerals);
-			telemetry.addData("Land (y)", land);
-			telemetry.addData("Wait 7 (right bumper)", wait7);
-			telemetry.update();
-		}
-		
-		roobot.reset(); 
-		waitForStart();
-		if (isStopRequested()) return;
-	
-		if(land)
-			roobot.land();
-		
-		if (align && !roobot.alignToLander()) {
-			telemetry.addLine("Failed to align");
-			telemetry.update();
-			return;
-		}
-		
-		if(wait7)
-			Thread.sleep(7000);
-			
-		roobot.resetEncoders();
-			
-		if (land)
-			roobot.lowerLift();
-			
-		if(avoidMinerals) {
-			roobot.driveForward(14);
-			roobot.resetEncoders();
-			
-			if(!otherCrater) {
-				roobot.turn(-89);
-				roobot.resetEncoders();
-			}
-		} else {
-			roobot.driveForwardAtSpeed(40, .5);
-			roobot.resetEncoders();
-			
-			roobot.driveForwardAtSpeed(23, 0.3);
-			roobot.resetEncoders();
-			/*long currentTime = System.currentTimeMillis();
-	
-			while(System.currentTimeMillis()-currentTime<500)
-				roobot.setIntakePower(-1);*/
-   
-			//roobot.setIntakePower(0);
-			
-			//roobot.turn(185);
-			
-			
-			if(otherCrater) {
-				roobot.turn(120);
-				roobot.resetEncoders();
-				
-				roobot.driveForward(18);
-				roobot.resetEncoders();
-				
-				roobot.turn(12);
-				
-				roobot.resetEncoders();
-				
-				roobot.deposit();
-				
-				//roobot.driveForward(-10);
-				//roobot.resetEncoders();
-				
-				roobot.driveForwardAtSpeed(78, .5);
-				roobot.resetEncoders();
-			
-			} else {
-				
-				roobot.turn(-130);
-				roobot.resetEncoders();
-				
-				roobot.deposit();
-				
-				roobot.driveForward(70);
-				roobot.resetEncoders();
-				
-				roobot.driveForwardAtSpeed(25, 0.5);
-				roobot.resetEncoders();
-			}
-		}
-	}
+            if (gamepad1.y)
+                land = !land;
+            if (gamepad1.right_bumper)
+                wait7 = !wait7;
+            telemetry.addData("Align (a)", align);
+            telemetry.addData("Same color crater (x)", otherCrater);
+            //telemetry.addData("Avoid Minerals + Avoid Depot (b)", avoidMinerals);
+            telemetry.addData("Land (y)", land);
+            telemetry.addData("Wait 7 (right bumper)", wait7);
+            telemetry.addLine();
+            telemetry.addData("Cube Pos", (cubePos = vision.getCubePosition()));
+            telemetry.update();
+
+            vision.updateDashboard();
+        }
+
+        robot.reset();
+        waitForStart();
+        vision.cleanup();
+        if (isStopRequested()) return;
+
+        if (land) robot.land();
+
+        if (align && !robot.align()) {
+            telemetry.addLine("Failed to align");
+            telemetry.update();
+            return;
+        }
+        robot.drive(2);
+
+        if (wait7) robot.setSleep(7000);
+        robot.resetEncoders();
+
+        if (land) robot.lowerLift();
+
+        switch (cubePos) {
+            case LEFT:
+                robot.turn(-30);
+                robot.resetEncoders();
+                robot.drive(40, 0.5);
+                robot.resetEncoders();
+                robot.turn(50);
+                robot.resetEncoders();
+                robot.drive(31, 0.5);
+                robot.resetEncoders();
+                robot.turn(-20);
+                break;
+            /*case RIGHT:
+                robot.turn(30);
+                robot.resetEncoders();
+                robot.drive(40, 0.5);
+                robot.resetEncoders();
+                robot.turn(-55);
+                robot.resetEncoders();
+                robot.drive(35, 0.5);
+                robot.resetEncoders();
+                robot.turn(-12);
+                robot.resetEncoders();
+                robot.drive(5);
+                robot.resetEncoders();
+                robot.turn(30);
+                break;*/
+            case RIGHT:
+            case CENTER:
+            case UNKNOWN:
+                robot.drive(40, 0.5);
+                robot.drive(40 + 30, 0.3);
+                break;
+        }
+        robot.resetEncoders();
+
+        if (otherCrater) {
+            robot.turn(120);
+            robot.resetEncoders();
+
+            robot.drive(18);
+            robot.resetEncoders();
+
+            robot.turn(12);
+            robot.resetEncoders();
+
+            robot.deposit();
+
+            robot.drive(78, 0.5);
+            robot.resetEncoders();
+        } else {
+            robot.turn(-130);
+            robot.resetEncoders();
+
+            robot.deposit();
+
+            robot.drive(70);
+            robot.resetEncoders();
+
+            robot.drive(25, 0.5);
+            robot.resetEncoders();
+        }
+    }
+
 }

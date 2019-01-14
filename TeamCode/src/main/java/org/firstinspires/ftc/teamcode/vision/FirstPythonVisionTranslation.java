@@ -248,7 +248,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         Imgproc.findContours(hlsThresholdedWhiteDenoised, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
         Imgproc.drawContours(returnMat, contours, -1, new Scalar(0, 0, 255), 2);
 
-        if (contours.size() == 0) {
+        if (contours.size() == 0){
 
             errors.add("No contours detected [Silver]");
 
@@ -260,7 +260,7 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
         // errors.add("" + contours.size());
 
         // Filter out non circular and small contours and record the centers of all the rest
-        for (MatOfPoint mOp : contours) {
+        for (MatOfPoint mOp : contours){
 
             double arcLen = Imgproc.arcLength(new MatOfPoint2f(mOp.toArray()), true);
             double area = Imgproc.contourArea(mOp);
@@ -271,7 +271,6 @@ public class FirstPythonVisionTranslation extends DogeCVDetector {//OpenCVPipeli
                 // errors.add("Fake contour removed");
 
                 continue;
-
             }
 
             double circularity = 4 * Math.PI * area / (arcLen * arcLen);

@@ -8,5 +8,5 @@ dependencies {
     implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
 
     // Enable the ftc-dashboard
-    implementation 'com.acmerobotics.dashboard:dashboard:0.2.1'
+    implementation 'com.acmerobotics.dashboard:dashboard:0.2.2'
 }
