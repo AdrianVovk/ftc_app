@@ -26,15 +26,15 @@ public class DepotAuto extends LinearOpMode {
                 align = !align;
             if (gamepad1.x)
                 otherCrater = !otherCrater;
-			/*if(gamepad1.b)
-				avoidMinerals = !avoidMinerals;*/
+			if(gamepad1.b)
+				avoidMinerals = !avoidMinerals;
             if (gamepad1.y)
                 land = !land;
             if (gamepad1.right_bumper)
                 wait7 = !wait7;
             telemetry.addData("Align (a)", align);
             telemetry.addData("Same color crater (x)", otherCrater);
-            //telemetry.addData("Avoid Minerals + Avoid Depot (b)", avoidMinerals);
+            telemetry.addData("Avoid Minerals + Avoid Depot (b)", avoidMinerals);
             telemetry.addData("Land (y)", land);
             telemetry.addData("Wait 7 (right bumper)", wait7);
             telemetry.addLine();
