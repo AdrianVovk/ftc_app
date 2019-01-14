@@ -144,6 +144,9 @@ public class DepotAuto extends LinearOpMode {
 
         if (otherCrater) {
 
+            roobot.drive(10,.7);
+            roobot.turn(90);
+            roobot.drive(35, .7);
             /*roobot.turn(120);
             roobot.resetEncoders();
 
@@ -160,6 +163,9 @@ public class DepotAuto extends LinearOpMode {
 
         } else {
 
+            roobot.drive(10,.7);
+            roobot.turn(-90);
+            roobot.drive(35, .7);
             /*roobot.turn(-130);
             roobot.resetEncoders();
 
