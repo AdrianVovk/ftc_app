@@ -63,6 +63,21 @@ public class DepotAuto extends LinearOpMode {
 
         if (land) roobot.lowerLift();
 
+        roobot.setSlidesPower(1);
+        roobot.setSleep(4000);
+        roobot.setSlidesPower(0);
+
+        roobot.setIntakeDown(true);
+        roobot.setIntakePower(-1);
+        roobot.setSleep(2000);
+        roobot.setIntakePower(0);
+
+        roobot.setIntakeDown(false);
+
+        roobot.setSlidesPower(-1);
+        roobot.setSleep(3500);
+        roobot.setSlidesPower(0);
+
         switch (cubePos) {
             case LEFT:
                 roobot.turn(-30);
@@ -98,11 +113,19 @@ public class DepotAuto extends LinearOpMode {
         }
         roobot.resetEncoders();
 
+        roobot.setIntakeDown(true);
+
         roobot.setSlidesPower(1);
         roobot.setSleep(3000);
+        roobot.setSlidesPower(0);
+
+        roobot.setIntakePower(1);
+        roobot.setSleep(1500);
+        roobot.setIntakePower(0);
 
         roobot.setSlidesPower(-1);
-        roobot.setSleep(3500);
+        roobot.setSleep(2500);
+        roobot.setSlidesPower(0);
 
         if (otherCrater) {
 
