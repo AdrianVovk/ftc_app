@@ -84,6 +84,29 @@ public class CraterAuto extends LinearOpMode {
             case UNKNOWN:
                 break;
         }
+        robot.setSlidesPower(1);
+        robot.setSleep(3000);
+
+        robot.setSlidesPower(-1);
+        robot.setSleep(3500);
+
+        switch (cubePos) {
+            case LEFT:
+                robot.turn(30);
+                robot.resetEncoders();
+                break;
+
+            case RIGHT:
+                robot.turn(-30);
+                robot.resetEncoders();
+                break;
+
+            case CENTER:
+                break;
+
+            case UNKNOWN:
+                break;
+        }
 
         if (!placeMarker) {
             robot.drive(45, 0.5);
