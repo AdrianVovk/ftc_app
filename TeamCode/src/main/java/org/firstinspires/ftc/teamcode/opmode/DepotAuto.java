@@ -63,20 +63,24 @@ public class DepotAuto extends LinearOpMode {
 
         if (land) roobot.lowerLift();
 
+        //depositing marker
         roobot.setSlidesPower(1);
         roobot.setSleep(4000);
         roobot.setSlidesPower(0);
 
         roobot.setIntakeDown(true);
         roobot.setIntakePower(-1);
+        roobot.setIntakePaddle(true);
         roobot.setSleep(2000);
         roobot.setIntakePower(0);
+        roobot.setIntakePaddle(false);
 
         roobot.setIntakeDown(false);
 
         roobot.setSlidesPower(-1);
         roobot.setSleep(3500);
         roobot.setSlidesPower(0);
+        //end of deposit
 
         switch (cubePos) {
             case LEFT:
@@ -113,6 +117,7 @@ public class DepotAuto extends LinearOpMode {
         }
         roobot.resetEncoders();
 
+        //sample
         roobot.setIntakeDown(true);
 
         roobot.setSlidesPower(1);
@@ -126,6 +131,7 @@ public class DepotAuto extends LinearOpMode {
         roobot.setSlidesPower(-1);
         roobot.setSleep(2500);
         roobot.setSlidesPower(0);
+        //end of sample
 
         switch (cubePos) {
             case LEFT:
