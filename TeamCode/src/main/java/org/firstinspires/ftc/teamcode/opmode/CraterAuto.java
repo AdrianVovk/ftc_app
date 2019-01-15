@@ -72,10 +72,11 @@ public class CraterAuto extends LinearOpMode {
         if (land)
             robot.lowerLift();
 
-
+        //drive for marker
         robot.drive(30,.5,20,.5);
         robot.resetEncoders();
 
+        //slides and intake for Marker placement
         robot.setSlidesPower(1);
         robot.setSleep(3000);
         robot.setSlidesPower(0);
@@ -91,19 +92,12 @@ public class CraterAuto extends LinearOpMode {
         robot.setSleep(3500);
         robot.setSlidesPower(0);
 
+        //drive and realignment
         robot.drive(-30,.5, -20, .5);
         robot.resetEncoders();
 
         robot.align();
         robot.resetEncoders();
-
-        robot.turn(90);
-        robot.resetEncoders();
-
-        robot.drive(-10);
-        robot.resetEncoders();
-
-
 
         //turn for sample
         switch (cubePos) {
@@ -121,6 +115,7 @@ public class CraterAuto extends LinearOpMode {
                 break;
         }
 
+        //sample
         robot.setSlidesPower(1);
         robot.setSleep(3000);
         robot.setSlidesPower(0);
@@ -129,11 +124,13 @@ public class CraterAuto extends LinearOpMode {
         robot.setSleep(3000);
         robot.setIntakePower(0);
 
-        robot.setSlidesPower(1);
+        robot.setSlidesPower(-1);
         robot.setSleep(3500);
-
+        robot.setSlidesPower(0);
 
         //deposit to Intake
+        robot.setIntakePaddle(1);
+
         robot.setIntakeDown(true);
 
         robot.setLiftPower(1);
@@ -150,6 +147,22 @@ public class CraterAuto extends LinearOpMode {
 
         robot.setLiftPower(-1);
         robot.setSleep(3000);
+
+
+        //deposit extra mineral
+        robot.turn(90);
+        robot.resetEncoders();
+
+        robot.drive(-10);
+        robot.resetEncoders();
+
+
+
+
+
+
+
+
 
 
 
