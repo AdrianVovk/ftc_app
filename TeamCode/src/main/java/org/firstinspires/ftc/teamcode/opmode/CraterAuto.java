@@ -52,6 +52,7 @@ public class CraterAuto extends LinearOpMode {
         robot.reset();
         waitForStart();
         vision.cleanup();
+
         if (isStopRequested()) return;
 
         if (land)
@@ -108,6 +109,7 @@ public class CraterAuto extends LinearOpMode {
                 break;
         }
 
+
         robot.drive(0);
         robot.resetEncoders();
 
@@ -120,18 +122,49 @@ public class CraterAuto extends LinearOpMode {
         robot.turn(-10);
         robot.resetEncoders();
 
+        //send slides out for marker claim
         robot.setSlidesPower(1);
         robot.setSleep(3000);
 
         robot.setSlidesPower(-1);
-        robot.setSleep(-3500);
+        robot.setSleep(3500);
 
-        robot.turn(55);
-        robot.resetEncoders();
+        robot.setIntakePaddle(1);
+        robot.wait(1000);
 
-        robot.drive(0);
-        robot.resetEncoders();
+        robot.setIntakePaddle(-1);
+        robot.wait(1000);
 
+        if (otherCrater) {
+
+            robot.turn(-92);
+            robot.resetEncoders();
+
+            robot.drive(0);
+            robot.resetEncoders();
+
+            robot.turn(-10);
+            robot.resetEncoders();
+
+            robot.drive();
+            robot.resetEncoders();
+        } else {
+
+            robot.turn(55);
+            robot.resetEncoders();
+
+            //parking/grabbing extra minerals
+
+            robot.drive(0);
+            robot.resetEncoders();
+
+        }
+
+        robot.setSlidesPower(1);
+        robot.setSleep(1000);
+
+        robot.setIntakePower(1);
+        robot.setSleep(3000);
 
 
 
@@ -159,23 +192,12 @@ public class CraterAuto extends LinearOpMode {
 
             robot.deposit();
 
-            if (otherCrater) {
-
-                robot.turn(92);
-                robot.resetEncoders();
-
-                robot.align();
-                robot.resetEncoders();
-
-                robot.drive(70);
-                robot.drive(95, 0.5);
-                robot.resetEncoders();
-            } else {
+             else {
                 robot.drive(70);
                 robot.drive(95, 0.5);
                 robot.resetEncoders();
             }
-        }*/
+        } */
     }
 
     public void runCenter() {
