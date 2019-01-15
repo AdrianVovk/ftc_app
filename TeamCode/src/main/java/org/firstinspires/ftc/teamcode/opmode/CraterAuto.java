@@ -68,28 +68,93 @@ public class CraterAuto extends LinearOpMode {
             Thread.sleep(7000);
 
         robot.resetEncoders();
+
         if (land)
             robot.lowerLift();
 
-        switch (cubePos) {
-            case LEFT:
-                robot.turn(-30);
-                robot.resetEncoders();
-                break;
 
-            case RIGHT:
-                robot.turn(30);
-                robot.resetEncoders();
-                break;
-            case CENTER:
-            case UNKNOWN:
-                break;
-        }
+        robot.drive(30,.5,20,.5);
+        robot.resetEncoders();
+
         robot.setSlidesPower(1);
         robot.setSleep(3000);
+        robot.setSlidesPower(0);
+
+        robot.setIntakePaddle(1);
+
+        robot.setIntakePower(-1);
+        robot.setSleep(3000);
+        robot.setIntakePower(0);
+
 
         robot.setSlidesPower(-1);
         robot.setSleep(3500);
+        robot.setSlidesPower(0);
+
+        robot.drive(-30,.5, -20, .5);
+        robot.resetEncoders();
+
+        robot.align();
+        robot.resetEncoders();
+
+        robot.turn(90);
+        robot.resetEncoders();
+
+        robot.drive(-10);
+        robot.resetEncoders();
+
+
+
+        //turn for sample
+        switch (cubePos) {
+            case LEFT:
+                robot.turn(-30);
+                robot.resetEncoders();
+                break;
+
+            case RIGHT:
+                robot.turn(30);
+                robot.resetEncoders();
+                break;
+            case CENTER:
+            case UNKNOWN:
+                break;
+        }
+
+        robot.setSlidesPower(1);
+        robot.setSleep(3000);
+        robot.setSlidesPower(0);
+
+        robot.setIntakePower(1);
+        robot.setSleep(3000);
+        robot.setIntakePower(0);
+
+        robot.setSlidesPower(1);
+        robot.setSleep(3500);
+
+
+        //deposit to Intake
+        robot.setIntakeDown(true);
+
+        robot.setLiftPower(1);
+        robot.setSleep(3000);
+
+        robot.setDeposit();
+        robot.setSleep(2500);
+
+        robot.setDeposit();
+        robot.setSleep(2500);
+
+        robot.drive(0);
+        robot.resetEncoders();
+
+        robot.setLiftPower(-1);
+        robot.setSleep(3000);
+
+
+
+
+
 
         switch (cubePos) {
             case LEFT:
@@ -109,9 +174,6 @@ public class CraterAuto extends LinearOpMode {
                 break;
         }
 
-
-        robot.drive(0);
-        robot.resetEncoders();
 
         robot.turn(-45);
         robot.resetEncoders();
@@ -200,14 +262,14 @@ public class CraterAuto extends LinearOpMode {
         } */
     }
 
-    public void runCenter() {
+    /*public void runCenter() {
 
         if (!placeMarker) {
             robot.drive(45, 0.5);
             return;
-        }
+        }*/
 
-    }
+}
 
 
 }

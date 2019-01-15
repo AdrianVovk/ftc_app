@@ -125,10 +125,11 @@ class RobotHardware(map: HardwareMap) {
             intakeFlipRight.position = if (value) 0.0 else 1.0
         }
 
-    var intakePaddle: Boolean
-        get() = paddle.position == 0.0
+    var intakePaddle: Double
+        get() = paddle.position
         set(value) {
-            paddle.position = if (value) 0.0 else 1.0
+            paddle.position = value;
+            //0 = hitting position, .5 = holding position, 1 = open position
         }
 
 

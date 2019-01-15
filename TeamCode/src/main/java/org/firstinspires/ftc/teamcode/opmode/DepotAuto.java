@@ -70,10 +70,10 @@ public class DepotAuto extends LinearOpMode {
 
         roobot.setIntakeDown(true);
         roobot.setIntakePower(-1);
-        roobot.setIntakePaddle(true);
+        roobot.setIntakePaddle(1);
         roobot.setSleep(2000);
         roobot.setIntakePower(0);
-        roobot.setIntakePaddle(false);
+        roobot.setIntakePaddle(.5);
 
         roobot.setIntakeDown(false);
 
