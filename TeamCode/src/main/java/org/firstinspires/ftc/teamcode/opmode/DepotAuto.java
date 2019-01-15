@@ -9,19 +9,21 @@ import org.firstinspires.ftc.teamcode.vision.Vision;
 @Autonomous(name = "Depot", group = "Cleveland")
 public class DepotAuto extends LinearOpMode {
 
+    RobotHardware roobot = new RobotHardware(this);
+    Vision vision = new Vision(hardwareMap);
+
+    Vision.CubePosition cubePos = Vision.CubePosition.UNKNOWN;
+
+
+    boolean align = true;
+    boolean otherCrater = false;
+    boolean land = true;
+    boolean avoidMinerals = false;
+    boolean wait7 = false;
+    boolean depositMineral = false;
     public void runOpMode() {
-        RobotHardware roobot = new RobotHardware(this);
-        Vision vision = new Vision(hardwareMap);
 
-        Vision.CubePosition cubePos = Vision.CubePosition.UNKNOWN;
         vision.init();
-
-        boolean align = true;
-        boolean otherCrater = false;
-        boolean land = true;
-        boolean avoidMinerals = false;
-        boolean wait7 = false;
-        boolean depositMineral = false; //not programmed
         while (!isStopRequested() && !isStarted()) {
             if (gamepad1.a)
                 align = !align;
@@ -84,8 +86,9 @@ public class DepotAuto extends LinearOpMode {
         roobot.setSlidesPower(-1);
         roobot.setSleep(3500);
         roobot.setSlidesPower(0);
-        //end of deposit
+        //end of depositing marker
 
+        //sample
         switch (cubePos) {
             case LEFT:
                 roobot.turn(-30);
@@ -121,7 +124,6 @@ public class DepotAuto extends LinearOpMode {
         }
         roobot.resetEncoders();
 
-        //sample
         roobot.setIntakeDown(true);
 
         roobot.setSlidesPower(1);
@@ -135,8 +137,8 @@ public class DepotAuto extends LinearOpMode {
         roobot.setSlidesPower(-1);
         roobot.setSleep(2500);
         roobot.setSlidesPower(0);
-        //end of sample
 
+        //turn back
         switch (cubePos) {
             case LEFT:
                 roobot.turn(30);
@@ -151,6 +153,20 @@ public class DepotAuto extends LinearOpMode {
 
                 break;
         }
+        //end of sample
+
+        //deposit mineral
+        //missing code for transfer
+        roobot.setLiftPower(1);
+        roobot.setSleep(3500);
+        roobot.setLiftPower(0);
+
+        roobot.deposit();
+
+        roobot.setLiftPower(-1);
+        roobot.setSleep(3000);
+        roobot.setLiftPower(0);
+        //end of deposit
 
         if (otherCrater) {
 
