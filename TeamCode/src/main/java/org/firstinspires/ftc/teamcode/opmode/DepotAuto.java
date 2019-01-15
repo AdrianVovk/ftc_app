@@ -21,6 +21,7 @@ public class DepotAuto extends LinearOpMode {
         boolean land = true;
         boolean avoidMinerals = false;
         boolean wait7 = false;
+        boolean depositMineral = false; //not programmed
         while (!isStopRequested() && !isStarted()) {
             if (gamepad1.a)
                 align = !align;
@@ -32,11 +33,14 @@ public class DepotAuto extends LinearOpMode {
                 land = !land;
             if (gamepad1.right_bumper)
                 wait7 = !wait7;
+            if (gamepad1.left_bumper)
+                depositMineral = !depositMineral;
             telemetry.addData("Align (a)", align);
             telemetry.addData("Same color crater (x)", otherCrater);
             telemetry.addData("Avoid Minerals + Avoid Depot (b)", avoidMinerals);
             telemetry.addData("Land (y)", land);
             telemetry.addData("Wait 7 (right bumper)", wait7);
+            telemetry.addData("Deposit (left bumper)", depositMineral);
             telemetry.addLine();
             telemetry.addData("Cube Pos", (cubePos = vision.getCubePosition()));
             telemetry.update();

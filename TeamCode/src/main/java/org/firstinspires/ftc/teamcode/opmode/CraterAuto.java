@@ -15,8 +15,8 @@ public class CraterAuto extends LinearOpMode {
     boolean otherCrater = false;
     boolean land = true;
     boolean avoidMinerals = false;
-    boolean aligned = false;
     boolean wait7 = false;
+    boolean depositMineral = true;
 
     public void runOpMode() throws InterruptedException {
         robot = new RobotHardware(this);
@@ -37,12 +37,15 @@ public class CraterAuto extends LinearOpMode {
                 land = !land;
             if (gamepad1.right_bumper)
                 wait7 = !wait7;
+            if (gamepad1.left_bumper)
+                depositMineral = !depositMineral;
 
             telemetry.addData("Align (a)", align);
             telemetry.addData("Go to depot and place marker (b)", placeMarker);
             telemetry.addData("Go to opposite color crater (x) (sorta sketch)", otherCrater);
             telemetry.addData("Land (y)", land);
             telemetry.addData("Wait 7 (right bumper)", wait7);
+            telemetry.addData("Deposit Mineral (left bumper)", depositMineral);
             //telemetry.addData("Avoid Minerals (y)", avoidMinerals);
             telemetry.addLine();
             telemetry.addData("Cube Pos", (cubePos = vision.getCubePosition()));
@@ -73,7 +76,7 @@ public class CraterAuto extends LinearOpMode {
             robot.lowerLift();
 
         //drive for marker
-        robot.drive(30,.5,20,.5);
+        robot.drive(30, .5, 20, .5);
         robot.resetEncoders();
 
         //slides and intake for Marker placement
@@ -93,7 +96,7 @@ public class CraterAuto extends LinearOpMode {
         robot.setSlidesPower(0);
 
         //drive and realignment
-        robot.drive(-30,.5, -20, .5);
+        robot.drive(-30, .5, -20, .5);
         robot.resetEncoders();
 
         robot.align();
@@ -128,47 +131,7 @@ public class CraterAuto extends LinearOpMode {
         robot.setSleep(3500);
         robot.setSlidesPower(0);
 
-        //deposit to Intake
-        robot.setIntakePaddle(1);
-
-        robot.setIntakeDown(true);
-
-        robot.setLiftPower(1);
-        robot.setSleep(3000);
-
-        robot.setDeposit();
-        robot.setSleep(2500);
-
-        robot.setDeposit();
-        robot.setSleep(2500);
-
-        robot.drive(0);
-        robot.resetEncoders();
-
-        robot.setLiftPower(-1);
-        robot.setSleep(3000);
-
-
-        //deposit extra mineral
-        robot.turn(90);
-        robot.resetEncoders();
-
-        robot.drive(-10);
-        robot.resetEncoders();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //realign depending on case
         switch (cubePos) {
             case LEFT:
                 robot.turn(30);
@@ -187,28 +150,60 @@ public class CraterAuto extends LinearOpMode {
                 break;
         }
 
+        if (depositMineral) {
+            //deposit to Intake
+            robot.setIntakePaddle(1);
 
-        robot.turn(-45);
-        robot.resetEncoders();
+            robot.setDeposit(true);
 
-        robot.drive(0);
-        robot.resetEncoders();
+            robot.setIntakeDown(true);
 
-        robot.turn(-10);
-        robot.resetEncoders();
+            robot.setIntakePower(1);
+            robot.setSleep(2500);
+            robot.setIntakePower(0);
 
-        //send slides out for marker claim
-        robot.setSlidesPower(1);
-        robot.setSleep(3000);
+            robot.setDeposit(false);
 
-        robot.setSlidesPower(-1);
-        robot.setSleep(3500);
+            //send lift up for deposit
+            robot.setLiftPower(1);
+            robot.setSleep(3000);
+            robot.setLiftPower(0);
 
-        robot.setIntakePaddle(1);
-        robot.wait(1000);
+            //set up for deposit
+            robot.turn(90);
+            robot.resetEncoders();
 
-        robot.setIntakePaddle(-1);
-        robot.wait(1000);
+            robot.drive(-10);
+            robot.resetEncoders();
+
+            robot.turn(90);
+            robot.resetEncoders();
+
+            robot.drive(-10, .5);
+            robot.resetEncoders();
+
+            //make deposit
+            robot.setDeposit(true);
+
+            robot.drive(0);
+            robot.resetEncoders();
+
+        }
+
+            robot.setLiftPower(-1);
+            robot.setSleep(3000);
+            robot.setLiftPower(0);
+
+            robot.turn(-45);
+            robot.resetEncoders();
+
+            robot.drive(0);
+            robot.resetEncoders();
+
+            robot.turn(-10);
+            robot.resetEncoders();
+
+
 
         if (otherCrater) {
 
@@ -221,7 +216,7 @@ public class CraterAuto extends LinearOpMode {
             robot.turn(-10);
             robot.resetEncoders();
 
-            robot.drive();
+            robot.drive(0);
             robot.resetEncoders();
         } else {
 
@@ -285,4 +280,4 @@ public class CraterAuto extends LinearOpMode {
 }
 
 
-}
+

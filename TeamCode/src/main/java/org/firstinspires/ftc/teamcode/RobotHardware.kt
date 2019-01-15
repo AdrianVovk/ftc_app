@@ -137,6 +137,7 @@ class RobotHardware(map: HardwareMap) {
         get() = markerDeposit.position == 0.0
         set(value) {
             markerDeposit.position = if (value) 1.0 else 0.0
+            //if true make deposit if false keep up
         }
 
     fun deposit() {
