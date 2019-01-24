@@ -155,6 +155,18 @@ class RobotHardware(map: HardwareMap) {
     val rightPosition: Double
         get() = ((dRF.currentPosition + dRB.currentPosition) / 2.0) / Constants.INCHES_TO_TICKS
 
+    val frontLeftPosition: Double
+        get() = dLF.currentPosition / Constants.INCHES_TO_TICKS
+
+    val frontRightPosition: Double
+        get() = dRF.currentPosition / Constants.INCHES_TO_TICKS
+
+    val backLeftPosition: Double
+        get() = dLB.currentPosition / Constants.INCHES_TO_TICKS
+
+    val backRightPosition: Double
+        get() = dRB.currentPosition / Constants.INCHES_TO_TICKS
+
     fun stop() {
         leftPower = 0.0
         rightPower = 0.0

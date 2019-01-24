@@ -39,8 +39,13 @@ class ArcadeTeleOp : LinearOpMode() {
             if (gamepad1.b)
                 robot.resetEncoders()
 
-            telemetry.addData("Right pos", robot.rightPosition)
-            telemetry.addData("Left pos", robot.leftPosition)
+            //telemetry.addData("Right pos", robot.rightPosition)
+            //telemetry.addData("Left pos", robot.leftPosition)
+            telemetry.addData("Right Front Pos", robot.frontRightPosition)
+            telemetry.addData("Right Back Pos", robot.backRightPosition)
+            telemetry.addData("Left Front Pos", robot.frontLeftPosition)
+            telemetry.addData("Left Back Pos", robot.backLeftPosition)
+
             telemetry.update()
         }
 
