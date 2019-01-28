@@ -27,7 +27,7 @@ class ArcadeTeleOp : LinearOpMode() {
             robot.rightPower = (drive - turn) * powerScale
             robot.liftPower = -gamepad1.left_stick_y.toDouble()
 
-            robot.slidesPower = gamepad1.left_stick_x.toDouble()
+            robot.slidesPower = gamepad2.left_stick_x.toDouble()
             //robot.intakePower = gamepad1.left_trigger * (if (gamepad1.left_bumper) -1 else 1).toDouble()
             //robot.intakeDown = gamepad1.a
 
