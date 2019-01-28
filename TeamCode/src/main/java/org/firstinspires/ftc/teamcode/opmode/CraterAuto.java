@@ -84,11 +84,11 @@ public class CraterAuto extends LinearOpMode {
         robot.setSleep(3000);
         robot.setSlidesPower(0);
 
-        robot.setIntakePaddle(1);
+        //robot.setIntakePaddle(1);
 
-        robot.setIntakePower(-1);
+        //robot.setIntakePower(-1);
         robot.setSleep(3000);
-        robot.setIntakePower(0);
+        //robot.setIntakePower(0);
 
 
         robot.setSlidesPower(-1);
@@ -123,9 +123,9 @@ public class CraterAuto extends LinearOpMode {
         robot.setSleep(3000);
         robot.setSlidesPower(0);
 
-        robot.setIntakePower(1);
+        //robot.setIntakePower(1);
         robot.setSleep(3000);
-        robot.setIntakePower(0);
+        //robot.setIntakePower(0);
 
         robot.setSlidesPower(-1);
         robot.setSleep(3500);
@@ -152,15 +152,15 @@ public class CraterAuto extends LinearOpMode {
 
         if (depositMineral) {
             //deposit to Intake
-            robot.setIntakePaddle(1);
+            //robot.setIntakePaddle(1);
 
             robot.setDeposit(true);
 
-            robot.setIntakeDown(true);
+            //robot.setIntakeDown(true);
 
-            robot.setIntakePower(1);
+            //robot.setIntakePower(1);
             robot.setSleep(2500);
-            robot.setIntakePower(0);
+            //robot.setIntakePower(0);
 
             robot.setDeposit(false);
 
@@ -233,7 +233,7 @@ public class CraterAuto extends LinearOpMode {
         robot.setSlidesPower(1);
         robot.setSleep(1000);
 
-        robot.setIntakePower(1);
+        //robot.setIntakePower(1);
         robot.setSleep(3000);
 
 

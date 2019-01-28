@@ -5,7 +5,6 @@ import com.acmerobotics.dashboard.config.Config
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.HardwareMap
-import org.firstinspires.ftc.robotcore.external.Const
 import org.firstinspires.ftc.teamcode.ext.init
 import org.firstinspires.ftc.teamcode.ext.onTape
 import org.firstinspires.ftc.teamcode.ext.resetEncoder
@@ -51,12 +50,12 @@ class RobotHardware(map: HardwareMap) {
     private val leftLift = map.dcMotor["leftLift"].init()
     private val rightLift = map.dcMotor["rightLift"].init(true)
     private val liftLock = map.servo["ratchet"]
-    private val intake = map.dcMotor["intake"].init()
+    //private val intake = map.dcMotor["intake"].init()
     private val slides = map.dcMotor["slides"].init()
-    private val intakeFlipLeft = map.servo["intakeRotLeft"]
-    private val intakeFlipRight = map.servo["intakeRotRight"]
-    private val paddle = map.servo["paddle"]
-    private val markerDeposit = map.servo["marker"]
+    //private val intakeFlipLeft = map.servo["intakeRotLeft"]
+    //private val intakeFlipRight = map.servo["intakeRotRight"]
+    //private val paddle = map.servo["paddle"]
+    private val depositor = map.servo["deposit"]
     private val leftColor = map.colorSensor["leftColor"]
     private val rightColor = map.colorSensor["rightColor"]
 
@@ -106,11 +105,11 @@ class RobotHardware(map: HardwareMap) {
         }
 
 
-    var intakePower: Double
+    /*var intakePower: Double
         get() = intake.power
         set(value) {
             intake.power = value
-        }
+        }*/
 
     var slidesPower: Double
         get() = slides.power
@@ -118,7 +117,7 @@ class RobotHardware(map: HardwareMap) {
             slides.power = value
         }
 
-    var intakeDown: Boolean
+    /*var intakeDown: Boolean
         get() = intakeFlipLeft.position == 0.0 && intakeFlipRight.position == 0.0
         set(value) {
             intakeFlipLeft.position = if (value) 0.0 else 1.0
@@ -130,13 +129,13 @@ class RobotHardware(map: HardwareMap) {
         set(value) {
             paddle.position = value;
             //0 = hitting position, .5 = holding position, 1 = open position
-        }
+        }*/
 
 
     var deposit: Boolean
-        get() = markerDeposit.position == 0.0
+        get() = depositor.position == 0.0
         set(value) {
-            markerDeposit.position = if (value) 1.0 else 0.0
+            depositor.position = if (value) 1.0 else 0.0
             //if true make deposit if false keep up
         }
 
@@ -150,10 +149,10 @@ class RobotHardware(map: HardwareMap) {
         get() = (leftPosition + rightPosition) / 2.0
 
     val leftPosition: Double
-        get() = ((dLF.currentPosition + dLB.currentPosition) / 2.0) / Constants.INCHES_TO_TICKS
+        get() = (frontLeftPosition + backLeftPosition) / 2.0
 
     val rightPosition: Double
-        get() = ((dRF.currentPosition + dRB.currentPosition) / 2.0) / Constants.INCHES_TO_TICKS
+        get() = (frontRightPosition + backRightPosition) / 2.0
 
     val frontLeftPosition: Double
         get() = dLF.currentPosition / Constants.INCHES_TO_TICKS
@@ -182,6 +181,7 @@ class RobotHardware(map: HardwareMap) {
 //        intakeDown = false
 //        intakePaddle = false
         deposit = false
+
     }
 
     fun resetEncoders() {

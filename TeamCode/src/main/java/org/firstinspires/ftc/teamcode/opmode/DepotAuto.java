@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.vision.Vision;
 @Autonomous(name = "Depot", group = "Cleveland")
 public class DepotAuto extends LinearOpMode {
 
-    RobotHardware roobot = new RobotHardware(this);
-    Vision vision = new Vision(hardwareMap);
+    RobotHardware roobot;
+    Vision vision;
 
     Vision.CubePosition cubePos = Vision.CubePosition.UNKNOWN;
 
@@ -23,7 +23,9 @@ public class DepotAuto extends LinearOpMode {
     boolean depositMineral = false;
     public void runOpMode() {
 
+        vision = new Vision(hardwareMap);
         vision.init();
+        roobot = new RobotHardware(this);
         while (!isStopRequested() && !isStarted()) {
             if (gamepad1.a)
                 align = !align;
@@ -47,7 +49,7 @@ public class DepotAuto extends LinearOpMode {
             telemetry.addData("Cube Pos", (cubePos = vision.getCubePosition()));
             telemetry.update();
 
-            vision.updateDashboard();
+            //vision.updateDashboard();
         }
 
         roobot.reset();
@@ -55,7 +57,7 @@ public class DepotAuto extends LinearOpMode {
         vision.cleanup();
         if (isStopRequested()) return;
 
-        if (land) roobot.land();
+        /*if (land) roobot.land();
 
         if (align && !roobot.align()) {
             telemetry.addLine("Failed to align");
@@ -68,20 +70,20 @@ public class DepotAuto extends LinearOpMode {
         roobot.resetEncoders();
 
         if (land) roobot.lowerLift();
-
+        */
         //depositing marker
         roobot.setSlidesPower(1);
         roobot.setSleep(4000);
         roobot.setSlidesPower(0);
 
-        roobot.setIntakeDown(true);
+        /*roobot.setIntakeDown(true);
         roobot.setIntakePower(-1);
         roobot.setIntakePaddle(1);
         roobot.setSleep(2000);
         roobot.setIntakePower(0);
         roobot.setIntakePaddle(.5);
 
-        roobot.setIntakeDown(false);
+        roobot.setIntakeDown(false);*/
 
         roobot.setSlidesPower(-1);
         roobot.setSleep(3500);
@@ -89,7 +91,7 @@ public class DepotAuto extends LinearOpMode {
         //end of depositing marker
 
         //sample
-        switch (cubePos) {
+        /*switch (cubePos) {
             case LEFT:
                 roobot.turn(-30);
                 roobot.resetEncoders();
@@ -99,7 +101,7 @@ public class DepotAuto extends LinearOpMode {
                 roobot.resetEncoders();
                 roobot.drive(31, 0.5);
                 roobot.resetEncoders();
-                roobot.turn(-20);*/
+                roobot.turn(-20);* /
                 break;
             case RIGHT:
                 roobot.turn(30);
@@ -114,12 +116,12 @@ public class DepotAuto extends LinearOpMode {
                 roobot.resetEncoders();
                 roobot.drive(5);
                 roobot.resetEncoders();
-                roobot.turn(30);*/
+                roobot.turn(30);* /
                 break;
             case CENTER:
             case UNKNOWN:
-                /*roobot.drive(40, 0.5);
-                roobot.drive(40 + 30, 0.3);*/
+                //roobot.drive(40, 0.5);
+                //roobot.drive(40 + 30, 0.3);
                 break;
         }
         roobot.resetEncoders();
@@ -154,7 +156,7 @@ public class DepotAuto extends LinearOpMode {
                 break;
         }
         //end of sample
-
+        */
         //deposit mineral
         //missing code for transfer
         roobot.setLiftPower(1);
@@ -191,10 +193,10 @@ public class DepotAuto extends LinearOpMode {
             roobot.deposit();
 
             roobot.drive(78, 0.5);
-            roobot.resetEncoders();*/
+            roobot.resetEncoders();* /
 
         } else {
-
+*/
             roobot.drive(10,.7);
             roobot.resetEncoders();
 
