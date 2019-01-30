@@ -33,6 +33,8 @@ object Constants {
     @JvmField
     var DRIVE_POWER_SCALE = 1.0
     @JvmField
+    var SLIDES_POWER_SCALE = 0.3
+    @JvmField
     var LIFT_POWER_SCALE = 1.0
 }
 
@@ -50,11 +52,11 @@ class RobotHardware(map: HardwareMap) {
     private val leftLift = map.dcMotor["leftLift"].init()
     private val rightLift = map.dcMotor["rightLift"].init(true)
     private val liftLock = map.servo["ratchet"]
-    //private val intake = map.dcMotor["intake"].init()
+    private val intake = map.dcMotor["intake"].init()
     private val slides = map.dcMotor["slides"].init()
-    //private val intakeFlipLeft = map.servo["intakeRotLeft"]
-    //private val intakeFlipRight = map.servo["intakeRotRight"]
-    //private val paddle = map.servo["paddle"]
+    private val intakeFlipLeft = map.servo["intakeRotLeft"]
+    private val intakeFlipRight = map.servo["intakeRotRight"]
+    private val paddle = map.servo["paddle"]
     private val depositor = map.servo["deposit"]
     private val leftColor = map.colorSensor["leftColor"]
     private val rightColor = map.colorSensor["rightColor"]
@@ -105,11 +107,11 @@ class RobotHardware(map: HardwareMap) {
         }
 
 
-    /*var intakePower: Double
+    var intakePower: Double
         get() = intake.power
         set(value) {
             intake.power = value
-        }*/
+        }
 
     var slidesPower: Double
         get() = slides.power
@@ -117,18 +119,18 @@ class RobotHardware(map: HardwareMap) {
             slides.power = value
         }
 
-    /*var intakeDown: Boolean
+    var intakeDown: Boolean
         get() = intakeFlipLeft.position == 0.0 && intakeFlipRight.position == 0.0
         set(value) {
             intakeFlipLeft.position = if (value) 0.0 else 1.0
-            intakeFlipRight.position = if (value) 0.0 else 1.0
+            intakeFlipRight.position = if (value) 1.0 else 0.0
         }
 
-    var intakePaddle: Double`ion
+    var intakePaddle: Boolean
+        get() = paddle.position == 0.0
         set(value) {
-            paddle.position = value;
-            //0 = hitting position, .5 = holding position, 1 = open position
-        }*/
+            paddle.position = if (value) 1.0 else 0.0
+        }
 
 
     var deposit: Boolean
@@ -175,10 +177,10 @@ class RobotHardware(map: HardwareMap) {
         stop()
         resetEncoders()
         liftPower = 0.0
-//        slidesPower = 0.0
-//        intakePower = 0.0
-//        intakeDown = false
-//        intakePaddle = false
+        slidesPower = 0.0
+        intakePower = 0.0
+        intakeDown = false
+        intakePaddle = false
         deposit = false
 
     }

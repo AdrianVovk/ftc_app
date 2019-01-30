@@ -10,6 +10,8 @@ class ArcadeTeleOp : LinearOpMode() {
 
     override fun runOpMode() {
         var rbPressedLast = false
+        var intakeDownBtnLast = false
+        var intakeDown = false;
         var direction = 1
         var powerScale = 1.0
         robot.reset()
@@ -25,14 +27,21 @@ class ArcadeTeleOp : LinearOpMode() {
 
             robot.leftPower = (drive + turn) * powerScale
             robot.rightPower = (drive - turn) * powerScale
-            robot.liftPower = -gamepad1.left_stick_y.toDouble()*powerScale
+            robot.liftPower = -gamepad1.left_stick_y.toDouble()
 
-            robot.slidesPower = -gamepad2.right_stick_x.toDouble()*powerScale
-            //robot.intakePower = gamepad1.left_trigger * (if (gamepad1.left_bumper) -1 else 1).toDouble()
-            //robot.intakeDown = gamepad1.a
+            robot.slidesPower = -gamepad1.left_stick_x.toDouble()
 
-            robot.deposit = gamepad1.a
-            if (gamepad1.x) robot.unlock()
+            robot.intakePower = gamepad2.left_trigger * (if (gamepad2.left_bumper) 1 else -1).toDouble()
+
+            robot.intakePaddle = gamepad2.y
+
+            if (gamepad2.b && ! intakeDownBtnLast)
+                intakeDown = !intakeDown
+            robot.intakeDown = intakeDown
+            intakeDownBtnLast = gamepad2.b
+
+            robot.deposit = gamepad2.a
+            if (gamepad2.x) robot.unlock()
 
             powerScale = if (gamepad1.left_bumper) 0.5 else 1.0
 
