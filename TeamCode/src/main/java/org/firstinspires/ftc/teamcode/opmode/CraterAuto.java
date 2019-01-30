@@ -81,18 +81,18 @@ public class CraterAuto extends LinearOpMode {
 
         //slides and intake for Marker placement
         robot.setSlidesPower(1);
-        robot.setSleep(3000);
+        robot.setSleep(1000);
         robot.setSlidesPower(0);
 
         //robot.setIntakePaddle(1);
 
         //robot.setIntakePower(-1);
-        robot.setSleep(3000);
+        robot.setSleep(1000);
         //robot.setIntakePower(0);
 
 
         robot.setSlidesPower(-1);
-        robot.setSleep(3500);
+        robot.setSleep(1500);
         robot.setSlidesPower(0);
 
         //drive and realignment
@@ -120,15 +120,15 @@ public class CraterAuto extends LinearOpMode {
 
         //sample
         robot.setSlidesPower(1);
-        robot.setSleep(3000);
+        robot.setSleep(1000);
         robot.setSlidesPower(0);
 
         //robot.setIntakePower(1);
-        robot.setSleep(3000);
+        robot.setSleep(1000);
         //robot.setIntakePower(0);
 
         robot.setSlidesPower(-1);
-        robot.setSleep(3500);
+        robot.setSleep(1500);
         robot.setSlidesPower(0);
 
         //realign depending on case
@@ -159,14 +159,14 @@ public class CraterAuto extends LinearOpMode {
             //robot.setIntakeDown(true);
 
             //robot.setIntakePower(1);
-            robot.setSleep(2500);
+            robot.setSleep(1500);
             //robot.setIntakePower(0);
 
             robot.setDeposit(false);
 
             //send lift up for deposit
             robot.setLiftPower(1);
-            robot.setSleep(3000);
+            robot.setSleep(1000);
             robot.setLiftPower(0);
 
             //set up for deposit
@@ -191,7 +191,7 @@ public class CraterAuto extends LinearOpMode {
         }
 
             robot.setLiftPower(-1);
-            robot.setSleep(3000);
+            robot.setSleep(1000);
             robot.setLiftPower(0);
 
             robot.turn(-45);
@@ -234,7 +234,7 @@ public class CraterAuto extends LinearOpMode {
         robot.setSleep(1000);
 
         //robot.setIntakePower(1);
-        robot.setSleep(3000);
+        robot.setSleep(1000);
 
 
 
