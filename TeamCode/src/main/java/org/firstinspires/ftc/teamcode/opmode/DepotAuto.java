@@ -17,7 +17,7 @@ public class DepotAuto extends LinearOpMode {
 
     boolean align = true;
     boolean otherCrater = false;
-    boolean land = false;
+    boolean land = true;
     boolean avoidMinerals = false;
     boolean wait7 = false;
     boolean depositMineral = false;
@@ -57,7 +57,7 @@ public class DepotAuto extends LinearOpMode {
         vision.cleanup();
         if (isStopRequested()) return;
 
-        if (land) roobot.land();
+        /*if (land) roobot.land();
 
         if (align && !roobot.align()) {
             telemetry.addLine("Failed to align");
@@ -65,17 +65,16 @@ public class DepotAuto extends LinearOpMode {
             return;
         }
         roobot.drive(2);
-        roobot.resetEncoders();
 
-        /*if (wait7) roobot.setSleep(7000);
+        if (wait7) roobot.setSleep(7000);
         roobot.resetEncoders();
 
         if (land) roobot.lowerLift();
         */
         //depositing marker
-        /*roobot.setSlidesPower(1);
+        roobot.setSlidesPower(1);
         roobot.setSleep(4000);
-        roobot.setSlidesPower(0);*/
+        roobot.setSlidesPower(0);
 
         /*roobot.setIntakeDown(true);
         roobot.setIntakePower(-1);
@@ -86,9 +85,9 @@ public class DepotAuto extends LinearOpMode {
 
         roobot.setIntakeDown(false);*/
 
-        /*roobot.setSlidesPower(-1);
+        roobot.setSlidesPower(-1);
         roobot.setSleep(3500);
-        roobot.setSlidesPower(0);*/
+        roobot.setSlidesPower(0);
         //end of depositing marker
 
         //sample
@@ -160,7 +159,7 @@ public class DepotAuto extends LinearOpMode {
         */
         //deposit mineral
         //missing code for transfer
-        /*roobot.setLiftPower(1);
+        roobot.setLiftPower(1);
         roobot.setSleep(3500);
         roobot.setLiftPower(0);
 
@@ -168,7 +167,7 @@ public class DepotAuto extends LinearOpMode {
 
         roobot.setLiftPower(-1);
         roobot.setSleep(3000);
-        roobot.setLiftPower(0);*/
+        roobot.setLiftPower(0);
         //end of deposit
 
         if (otherCrater) {
@@ -194,24 +193,18 @@ public class DepotAuto extends LinearOpMode {
             roobot.deposit();
 
             roobot.drive(78, 0.5);
-            roobot.resetEnco
+            roobot.resetEncoders();* /
 
-            ders();* /
-*/
         } else {
-
-            roobot.drive(12,.7);
+*/
+            roobot.drive(10,.7);
             roobot.resetEncoders();
 
             roobot.turn(-90);
             roobot.resetEncoders();
 
-            roobot.drive(50, .7);
+            roobot.drive(35, .7);
             roobot.resetEncoders();
-
-            roobot.turn(-35);
-            roobot.resetEncoders();
-            roobot.drive(10, .5);
             /*roobot.turn(-130);
             roobot.resetEncoders();
 
