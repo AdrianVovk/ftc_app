@@ -70,8 +70,8 @@ class ArcadeTeleOp : LinearOpMode() {
                 robot.deposit = true
 
             // G2: B => Paddle
-            robot.intakePaddle = true
-            //robot.intakePaddle = gamepad2.b
+            //robot.intakePaddle = true
+            robot.intakePaddle = gamepad2.b
 
             // Deal with intakeDown toggle
             robot.intakeDown = intakeDown

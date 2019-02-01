@@ -33,7 +33,7 @@ object Constants {
     @JvmField
     var DRIVE_POWER_SCALE = 1.0
     @JvmField
-    var SLIDES_POWER_SCALE = 0.3
+    var SLIDES_POWER_SCALE = 0.05
     @JvmField
     var LIFT_POWER_SCALE = 1.0
 }
@@ -179,8 +179,9 @@ class RobotHardware(map: HardwareMap) {
         liftPower = 0.0
         slidesPower = 0.0
         intakePower = 0.0
+        intakePaddle = true
+        sleep=1000;
         intakeDown = false
-        intakePaddle = false
         deposit = false
 
     }

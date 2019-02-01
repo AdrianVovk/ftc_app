@@ -17,7 +17,7 @@ public class DepotAuto extends LinearOpMode {
 
     boolean align = true;
     boolean otherCrater = false;
-    boolean land = true;
+    boolean land = false;
     boolean avoidMinerals = false;
     boolean wait7 = false;
     boolean depositMineral = false;
@@ -57,24 +57,26 @@ public class DepotAuto extends LinearOpMode {
         vision.cleanup();
         if (isStopRequested()) return;
 
-        /*if (land) roobot.land();
+        if (land) roobot.land();
 
         if (align && !roobot.align()) {
             telemetry.addLine("Failed to align");
             telemetry.update();
             return;
         }
+
         roobot.drive(2);
 
         if (wait7) roobot.setSleep(7000);
         roobot.resetEncoders();
 
         if (land) roobot.lowerLift();
-        */
+
         //depositing marker
-        roobot.setSlidesPower(1);
-        roobot.setSleep(4000);
-        roobot.setSlidesPower(0);
+        //roobot.setSlidesPower(1);
+        //roobot.setSleep(4000);
+        //roobot.setSlidesPower(0);
+        roobot.drive();
 
         /*roobot.setIntakeDown(true);
         roobot.setIntakePower(-1);
