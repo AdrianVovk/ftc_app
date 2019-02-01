@@ -76,7 +76,7 @@ public class DepotAuto extends LinearOpMode {
         //roobot.setSlidesPower(1);
         //roobot.setSleep(4000);
         //roobot.setSlidesPower(0);
-        roobot.drive();
+        //roobot.drive();
 
         /*roobot.setIntakeDown(true);
         roobot.setIntakePower(-1);

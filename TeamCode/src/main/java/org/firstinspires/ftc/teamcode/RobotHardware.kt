@@ -116,14 +116,19 @@ class RobotHardware(map: HardwareMap) {
     var slidesPower: Double
         get() = slides.power
         set(value) {
-            slides.power = value
+            slides.power = value * Constants.SLIDES_POWER_SCALE
         }
 
-    var intakeDown: Boolean
-        get() = intakeFlipLeft.position == 0.0 && intakeFlipRight.position == 0.0
+    var intakePosition: Double
+        get() = (intakeFlipLeft.position + intakeFlipRight.position)/2
         set(value) {
-            intakeFlipLeft.position = if (value) 0.0 else 1.0
-            intakeFlipRight.position = if (value) 1.0 else 0.0
+            intakeFlipLeft.position = value
+            intakeFlipRight.position = 1.0 - value
+
+            if (value == 1.0) {
+                intakePaddle = true
+                sleep = 50
+            } else intakePaddle = false
         }
 
     var intakePaddle: Boolean
@@ -134,9 +139,10 @@ class RobotHardware(map: HardwareMap) {
 
 
     var deposit: Boolean
-        get() = depositor.position == 0.0
+        get() = depositor.position == 0.5
         set(value) {
-            depositor.position = if (value) 1.0 else 0.0
+            depositor.position = if (value) 1.0 else 0.5
+
             //if true make deposit if false keep up
         }
 
@@ -181,7 +187,7 @@ class RobotHardware(map: HardwareMap) {
         intakePower = 0.0
         intakePaddle = true
         sleep=1000;
-        intakeDown = false
+        intakePosition = 0.0
         deposit = false
 
     }

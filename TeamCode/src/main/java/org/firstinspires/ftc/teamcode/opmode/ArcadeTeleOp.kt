@@ -15,7 +15,8 @@ class ArcadeTeleOp : LinearOpMode() {
         var g1BDisable = false
         var reverseMode = false
         var g2ADisable = false
-        var intakeDown = false
+        var g2YDisable = false
+        var intakePosition = 0.0
 
         // Wait for the start button
         robot.reset()
@@ -35,9 +36,18 @@ class ArcadeTeleOp : LinearOpMode() {
             g1BDisable = gamepad1.b
 
 
-            // G2: a (toggle) => Intake
-            if (gamepad2.a && !g2ADisable) intakeDown = !intakeDown
+            /* G2: a (toggle) => Intake
+            if (gamepad2.a && !g2ADisable) intakePosition != intakePosition
+            g2ADisable = gamepad2.a*/
+
+            //G2: a => Intake 0.0/10
+
+            if(gamepad2.a && !g2ADisable) intakePosition = 1.0 else 0.0
             g2ADisable = gamepad2.a
+
+            //G2: y => Intake .5
+            if(gamepad2.y && !g2YDisable) intakePosition = .5 else 0.0
+            g2ADisable = gamepad2.y
 
             // Move the robot
 
@@ -71,10 +81,10 @@ class ArcadeTeleOp : LinearOpMode() {
 
             // G2: B => Paddle
             //robot.intakePaddle = true
-            robot.intakePaddle = gamepad2.b
+            robot.intakePaddle = !gamepad2.b
 
             // Deal with intakeDown toggle
-            robot.intakeDown = intakeDown
+            robot.intakePosition = intakePosition
 
             // Telemetry and debug
 
