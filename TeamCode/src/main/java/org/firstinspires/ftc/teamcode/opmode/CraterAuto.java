@@ -79,23 +79,18 @@ public class CraterAuto extends LinearOpMode {
         robot.drive(30, .5, 20, .5);
         robot.resetEncoders();
 
-        //slides and intake for Marker placement
-        robot.setSlidesPower(1);
-        robot.setSleep(1000);
-        robot.setSlidesPower(0);
+        //drive and outake for Marker placement
+        robot.drive(15);
+        robot.resetEncoders();
 
-        //robot.setIntakePaddle(1);
-
-        //robot.setIntakePower(-1);
-        robot.setSleep(1000);
-        //robot.setIntakePower(0);
-
-
-        robot.setSlidesPower(-1);
+        robot.setIntakePower(-1);
         robot.setSleep(1500);
-        robot.setSlidesPower(0);
+        robot.setIntakePower(0);
 
-        //drive and realignment
+        //realign for vision
+        robot.drive(-10);
+        robot.resetEncoders();
+
         robot.drive(-30, .5, -20, .5);
         robot.resetEncoders();
 
@@ -119,31 +114,27 @@ public class CraterAuto extends LinearOpMode {
         }
 
         //sample
-        robot.setSlidesPower(1);
+        robot.drive(10);
+        robot.resetEncoders();
+
+        robot.setIntakePower(1);
         robot.setSleep(1000);
-        robot.setSlidesPower(0);
+        robot.setIntakePower(0);
 
-        //robot.setIntakePower(1);
-        robot.setSleep(1000);
-        //robot.setIntakePower(0);
-
-        robot.setSlidesPower(-1);
-        robot.setSleep(1500);
-        robot.setSlidesPower(0);
-
-        //realign depending on case
+        //go to crater
         switch (cubePos) {
             case LEFT:
-                robot.turn(30);
+                robot.drive(10,1,5,1);
                 robot.resetEncoders();
                 break;
 
             case RIGHT:
-                robot.turn(-30);
+                robot.drive(5,1,10,1);
                 robot.resetEncoders();
                 break;
 
             case CENTER:
+                robot.drive(10);
                 break;
 
             case UNKNOWN:
