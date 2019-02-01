@@ -119,16 +119,18 @@ class RobotHardware(map: HardwareMap) {
             slides.power = value * Constants.SLIDES_POWER_SCALE
         }
 
+    private var oldIntakePos : Double = -1.0
     var intakePosition: Double
         get() = (intakeFlipLeft.position + intakeFlipRight.position)/2
         set(value) {
+            if (value == 0.0) {
+                intakePaddle = true
+                if (oldIntakePos != value) sleep = 300
+            } else intakePaddle = false
+            oldIntakePos = value
+
             intakeFlipLeft.position = value
             intakeFlipRight.position = 1.0 - value
-
-            if (value == 1.0) {
-                intakePaddle = true
-                sleep = 50
-            } else intakePaddle = false
         }
 
     var intakePaddle: Boolean
@@ -185,8 +187,6 @@ class RobotHardware(map: HardwareMap) {
         liftPower = 0.0
         slidesPower = 0.0
         intakePower = 0.0
-        intakePaddle = true
-        sleep=1000;
         intakePosition = 0.0
         deposit = false
 

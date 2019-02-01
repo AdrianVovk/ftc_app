@@ -15,8 +15,8 @@ class ArcadeTeleOp : LinearOpMode() {
         var g1BDisable = false
         var reverseMode = false
         var g2ADisable = false
-        var g2YDisable = false
-        var intakePosition = 0.0
+        var g2XDisable = false
+        var intakePosition = 2
 
         // Wait for the start button
         robot.reset()
@@ -40,14 +40,14 @@ class ArcadeTeleOp : LinearOpMode() {
             if (gamepad2.a && !g2ADisable) intakePosition != intakePosition
             g2ADisable = gamepad2.a*/
 
-            //G2: a => Intake 0.0/10
-
-            if(gamepad2.a && !g2ADisable) intakePosition = 1.0 else 0.0
+            //G2: a => Intake normal/down
+            //G2: x => Intake normal/transfer
+            if(gamepad2.a && !g2ADisable)
+                intakePosition = if (intakePosition != 0) 0 else 1
             g2ADisable = gamepad2.a
-
-            //G2: y => Intake .5
-            if(gamepad2.y && !g2YDisable) intakePosition = .5 else 0.0
-            g2ADisable = gamepad2.y
+            if(gamepad2.x && !g2XDisable)
+                intakePosition = if (intakePosition != 1) 1 else 2
+            g2XDisable = gamepad2.x
 
             // Move the robot
 
@@ -60,17 +60,17 @@ class ArcadeTeleOp : LinearOpMode() {
             robot.rightPower = (drive - turn) * powerScale
 
             // G1: Left trigger => lift down; Right trigger => lift up
-            robot.liftPower = (gamepad1.right_trigger - gamepad1.left_trigger).toDouble()
+            robot.liftPower = -gamepad2.right_stick_y.toDouble()
 
-            // G1: Left Stick Y => Horiz slides in/out
-            robot.slidesPower = -gamepad1.left_stick_y.toDouble()
+            // G2: Left Stick Y => Horiz slides in/out
+            robot.slidesPower = -gamepad2.left_stick_y.toDouble()
 
             // G1: DPad Up => Unlock lift
             if (gamepad1.dpad_up) robot.unlock()
 
             // G1: Left bumper => Reverse intake; Right bumper => Forward intake
             // G2: Left trigger => Reverse intake; Right trigger => Forward intake
-            robot.intakePower = (gamepad2.right_trigger - gamepad2.left_trigger).toDouble() +
+            robot.intakePower = (gamepad2.left_trigger - gamepad2.right_trigger).toDouble() +
                     (if (gamepad1.right_bumper) 1.0 else if (gamepad1.left_bumper) -1.0 else 0.0)
 
             // G2: Left bumper => Depositor Up; Right bumper = Depositor Down
@@ -84,7 +84,12 @@ class ArcadeTeleOp : LinearOpMode() {
             robot.intakePaddle = !gamepad2.b
 
             // Deal with intakeDown toggle
-            robot.intakePosition = intakePosition
+            robot.intakePosition = when (intakePosition) {
+                0 -> 1.0
+                1 -> 0.5
+                2 -> 0.0
+                else -> 1.0
+            }
 
             // Telemetry and debug
 
