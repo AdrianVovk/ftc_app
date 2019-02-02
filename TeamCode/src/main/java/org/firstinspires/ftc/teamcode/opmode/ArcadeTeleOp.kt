@@ -35,11 +35,6 @@ class ArcadeTeleOp : LinearOpMode() {
             if (gamepad1.b && !g1BDisable) reverseMode = !reverseMode
             g1BDisable = gamepad1.b
 
-
-            /* G2: a (toggle) => Intake
-            if (gamepad2.a && !g2ADisable) intakePosition != intakePosition
-            g2ADisable = gamepad2.a*/
-
             //G2: a => Intake normal/down
             //G2: x => Intake normal/transfer
             if(gamepad2.a && !g2ADisable)

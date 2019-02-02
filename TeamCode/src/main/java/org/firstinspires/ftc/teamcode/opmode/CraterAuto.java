@@ -66,14 +66,20 @@ public class CraterAuto extends LinearOpMode {
             telemetry.update();
             return;
         }
+        robot.resetEncoders();
+
+        robot.drive(2);
 
         if (wait7)
             Thread.sleep(7000);
 
         robot.resetEncoders();
 
-        if (land)
+        if (land) {
+            robot.setIntakePosition(0.5);
+            robot.setSleep(200);
             robot.lowerLift();
+        }
 
         //drive for marker
         robot.drive(30, .5, 20, .5);
@@ -82,6 +88,11 @@ public class CraterAuto extends LinearOpMode {
         //drive and outake for Marker placement
         robot.drive(15);
         robot.resetEncoders();
+
+        robot.turn(20);
+        robot.resetEncoders();
+
+        robot.drive(15);
 
         robot.setIntakePower(-1);
         robot.setSleep(1500);

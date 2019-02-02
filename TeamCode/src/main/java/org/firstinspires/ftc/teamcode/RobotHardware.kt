@@ -236,15 +236,15 @@ class RobotHardware(map: HardwareMap) {
     fun land() {
         unlock()
         sleep = 100
-        liftPower = 1.0
+        liftPower = 0.6
         sleep = 1300
         liftPower = 0.0
         sleep = 300
     }
 
     fun lowerLift() {
-        liftPower = -1.0
-        sleep = 1000
+        liftPower = -.5
+        sleep = 1400
         liftPower = 0.0
     }
 
@@ -252,13 +252,13 @@ class RobotHardware(map: HardwareMap) {
         resetEncoders()
         var count = 0
         while (running && !(leftColor.onTape() && rightColor.onTape())) {
-            leftPower = 0.2
-            rightPower = 0.2
+            leftPower = 0.3
+            rightPower = 0.3
             while (running && currentPosition <= 15 && !(leftColor.onTape() || rightColor.onTape()));
             stop()
             leftPower = -0.2
             rightPower = -0.2
-            while (running && currentPosition <= -15 && !(leftColor.onTape() || rightColor.onTape()));
+            while (running && currentPosition >= -15 && !(leftColor.onTape() || rightColor.onTape()));
             stop()
 
             // Only go back and forward twice
